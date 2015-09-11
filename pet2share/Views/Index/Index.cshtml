@@ -23,21 +23,9 @@
             <div class="wmn tabcontents ">
             <div id="view1">
                 <p class="title-frm">Enter your email and password to sign in</p>
-                <p class="row-frm">
-                <label>Email *</label>
-                <input type="text" class="txt" placeholder="Email" />
-                </p>
-                <p class="row-frm">
-                <label>Password *</label>
-                <input type="password" class="txt" placeholder="Password" />
-                </p>
-                <div class="rowmn row-frm">
-                <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center"> Forgot your password?<br />
-                    <a>Click here</a> </div>
-                <div class="col6 col-md-6 col-sm-6 col-xs-6">
-                    <button class="btn-violet btn-login">LOGIN</button>
-                </div>
-                </div>
+                
+                @Html.Partial("_Login")
+
                 <div class="rowmn">
                 <div class="icon-cn icon-fb fleft"> <i class="fa fa-facebook"></i> </div>
                 <div class="fleft txt-cn"> Sign in with <b>Facebook</b> </div>
