@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-//using Pet2Share_API.Service.AccountManagement;
+using pet2share.Utility;
 using Pet2Share_API.DAL;
 
 namespace pet2share.Controllers
@@ -25,10 +25,14 @@ namespace pet2share.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(User model, string returnUrl)
         {
-            //if (ModelState.IsValid && Login(model.Username, model.Password))
-            //{
-            //    return RedirectToLocal(returnUrl);
-            //}
+            if (ModelState.IsValid)
+            {
+                var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, Utils.CStrDef(model.Password));
+                if (obj != null)
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+            }
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect.");

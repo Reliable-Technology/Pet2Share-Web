@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pet2share", "pet2share\pet2share.csproj", "{4780A380-D14D-4B07-A4FE-4A57B79D1F19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pet2Share_Web", "pet2share\Pet2Share_Web.csproj", "{4780A380-D14D-4B07-A4FE-4A57B79D1F19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
