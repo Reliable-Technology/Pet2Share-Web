@@ -37,27 +37,9 @@
             </div>
             <div id="view2">
                 <p class="title-frm">Enter your personal details to create an acount</p>
-                <p class="row-frm">
-                <label>Email *</label>
-                <input type="text" class="txt" />
-                </p>
-                <div class="rowmn row-frm">
-                <div class="col6">
-                    <label>Password *</label>
-                    <input type="password" class="txt" />
-                </div>
-                <div class="col6">
-                    <label>Repeat password * </label>
-                    <input type="password" class="txt" />
-                </div>
-                </div>
-                <div class="rowmn row-frm">
-                <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center"> By creating an account you agree to<br />
-                    our <a>Terms & Privacy</a> </div>
-                <div class="col6 col-md-6 col-sm-6 col-xs-6">
-                    <button class="btn-violet btn-login">Create Account</button>
-                </div>
-                </div>
+                
+                @Html.Partial("_Register")
+
                 <div class="rowmn">
                 <div class="icon-cn icon-fb fleft"> <i class="fa fa-facebook"></i> </div>
                 <div class="fleft txt-cn"> Create with <b>Facebook</b> </div>
