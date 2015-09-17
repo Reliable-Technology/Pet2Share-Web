@@ -1,0 +1,36 @@
+﻿@model Pet2Share_Web.Models.RegisterModel
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <p class="row-frm">
+        @Html.Label("Email *")
+        @Html.TextBoxFor(m => m.Email, new { @class = "txt" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </p>
+    <div class="rowmn row-frm">
+        <div class="col6">
+            @Html.Label("Password *")
+            @Html.PasswordFor(m => m.Password, new { @class = "txt" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div class="col6">
+            @Html.Label("Repeat password *")
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "txt" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+    </div>
+    <div class="rowmn row-frm">
+        <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center"> By creating an account you agree to<br />
+            our <a>Terms & Privacy</a> </div>
+        <div class="col6 col-md-6 col-sm-6 col-xs-6">
+            @*<button class="btn-violet btn-login">Create Account</button>*@
+            <input type="submit" class="btn-violet btn-login" value="Create Account" />
+        </div>
+    </div>
+}
+<h1>@ViewBag.Title.</h1>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

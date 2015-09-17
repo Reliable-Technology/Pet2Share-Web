@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-<<<<<<< HEAD:pet2share/Controllers/IndexController.cs
 using System.Web.Security;
-using pet2share.Utility;
 using Pet2Share_API.DAL;
 using Pet2Share_Web.Models;
-=======
-using Pet2Share_API.DAL;
-using Pet2Share_Web.Utility;
->>>>>>> 85628ffca3e33ae1098af75bf8e910e6fefd1a16:Pet2Share_Web/Controllers/IndexController.cs
+
 
 namespace Pet2Share_Web.Controllers
 {
