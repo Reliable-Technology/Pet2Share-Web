@@ -9,7 +9,7 @@ namespace Pet2Share_Web.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
         [Required]
@@ -23,6 +23,14 @@ namespace Pet2Share_Web.Models
 
     public class RegisterModel
     {
+        [Required]
+        [Display(Name = "FirstName")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "LastName")]
+        public string LastName { get; set; }
+
         [Required]
         [Display(Name = "User name")]
         public string Email { get; set; }

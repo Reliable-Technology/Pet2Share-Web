@@ -14,8 +14,12 @@ namespace Pet2Share_Web.Controllers
     {
         //
         // GET: /Index/
-        public ActionResult Index()
-        {
+        public ActionResult Index(LoginModel _LoginModel, RegisterModel _RegisterModel)
+        {   
+            if(_LoginModel.Username != null)
+                Login(_LoginModel);
+            if (_RegisterModel.Email != null)
+                Register(_RegisterModel);
             return View();
         }
 
@@ -24,43 +28,34 @@ namespace Pet2Share_Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(LoginModel model)
         {
-            if (ModelState.IsValid)
+            var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, model.Password);
+            if (obj != null)
             {
-                var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, model.Password);
-                if (obj != null)
-                {
-                    return RedirectToLocal(returnUrl);
-                }
+                return RedirectToLocal("");
             }
             return View();
         }
 
         //
         // POST: Register
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Attempt to register the user
-                try
-                {
-                    Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, "", "", model.Email);
-                    return RedirectToAction("Index", "Index");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
+                Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email);
+                ViewData["Message"] = "You have been successfully registered and logged in.";
+            }
+            catch (MembershipCreateUserException e)
+            {
+                ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return View();
         }
 
         #region Helpers

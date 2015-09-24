@@ -1,6 +1,6 @@
 ﻿@model Pet2Share_Web.Models.LoginModel
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm("Index", "Index", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <p class="row-frm">
@@ -21,8 +21,4 @@
     <input type="submit" class="btn-violet btn-login" value="LOGIN" />
 </div>
 </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -1,14 +1,28 @@
 ﻿@model Pet2Share_Web.Models.RegisterModel
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm("Index", "Index", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <p class="row-frm">
-        @Html.Label("Email *")
-        @Html.TextBoxFor(m => m.Email, new { @class = "txt" })
-        @Html.ValidationMessageFor(m => m.Email)
-    </p>
+    
     <div class="rowmn row-frm">
+        <div class="col6">
+            @Html.Label("FirstName *")
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "txt" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
+        <div class="col6">
+            @Html.Label("LastName *")
+            @Html.TextBoxFor(m => m.LastName, new { @class = "txt" })
+            @Html.ValidationMessageFor(m => m.LastName)
+        </div>
+    </div>
+    <div class="rowmn row-frm">
+        <div class="col12">
+            @Html.Label("Email *")
+            @Html.TextBoxFor(m => m.Email, new { @class = "txt" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
         <div class="col6">
             @Html.Label("Password *")
             @Html.PasswordFor(m => m.Password, new { @class = "txt" })
@@ -29,8 +43,9 @@
         </div>
     </div>
 }
-<h1>@ViewBag.Title.</h1>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@if (ViewData["Message"] != null)
+{
+<script language="javascript">
+    alert('@ViewData["Message"]');
+</script>
 }
