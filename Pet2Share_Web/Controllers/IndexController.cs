@@ -15,8 +15,8 @@ namespace Pet2Share_Web.Controllers
         //
         // GET: /Index/
         public ActionResult Index(LoginModel _LoginModel, RegisterModel _RegisterModel)
-        {   
-            if(_LoginModel.Username != null)
+        {
+            if (_LoginModel.Username != null)
                 Login(_LoginModel);
             if (_RegisterModel.Email != null)
                 Register(_RegisterModel);
@@ -47,7 +47,7 @@ namespace Pet2Share_Web.Controllers
         {
             try
             {
-                Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email);
+                Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email, null);
                 ViewData["Message"] = "You have been successfully registered and logged in.";
             }
             catch (MembershipCreateUserException e)
