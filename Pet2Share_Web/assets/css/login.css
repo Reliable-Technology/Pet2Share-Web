@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 .c-frm{ position:fixed; background: rgba(0, 0, 0, 0.4); z-index:99999; width:100%; height:100%;}
 .close-btn{ position:absolute; top:-30px; right:-30px; font-size:30px; color:#fff; z-index:99999999; cursor:pointer}
@@ -15,7 +15,7 @@
     background: #7F5CE6;
     color: #fff;
 }
-.frm-login .tabs li a{ width:50%; float:left; margin:0; border:0 !important; text-align:center; font-size:16px; text-transform:uppercase; font-weight:bold; white-space:nowrap; line-height:70px}
+.frm-login .tabs li a{ width:50%; float:left; margin:0; border:0 !important; text-align:center; font-size:16px; text-transform:uppercase; font-weight:bold; white-space:nowrap; line-height:70px;    background-color: #dedede;}
 .frm-login div.tabcontents{ border:0}
  
 
@@ -34,7 +34,7 @@
 .txt-cn{ line-height:50px; width:90%; text-align:center; background:#3B5998; color:#fff}
 .icon-gp{ background:#B52F1F}
 .txt-gp{ background:#DD4B39}
-.frm-login label{line-height: 14px;text-transform:uppercase}
+.frm-login label{line-height: 14px;}
 @media screen and (max-width: 760px) {
 	.frm-login{ width:100%}
 	.nav a{padding: 0.2em 1em;}

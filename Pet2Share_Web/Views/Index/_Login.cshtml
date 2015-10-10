@@ -1,24 +1,79 @@
 ﻿@model Pet2Share_Web.Models.LoginModel
+@using (Ajax.BeginForm("Login", "Index", new AjaxOptions
+{
+    UpdateTargetId = "view1",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}))
+{
+     
 
-@using (Html.BeginForm("Index", "Index", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    <p class="row-frm">
+    
+    <p class="title-frm">Enter your email and password to sign in</p>
+    <div class="row-frm">
         @Html.Label("Email *")
         @Html.TextBoxFor(m => m.Username, new { @class = "txt" })
         @Html.ValidationMessageFor(m => m.Username)
-    </p>
-    <p class="row-frm">
+    </div>
+    <div class="row-frm">
         @Html.Label("Password *")
         @Html.PasswordFor(m => m.Password, new { @class = "txt" })
         @Html.ValidationMessageFor(m => m.Password)
-    </p>
+        @Html.ValidationMessage("Error")
+    </div>
     <div class="rowmn row-frm">
-<div class="col6 col-md-6 col-sm-6 col-xs-6 text-center"> Forgot your password?<br />
-    <a>Click here</a> </div>
-<div class="col6 col-md-6 col-sm-6 col-xs-6">
-    @*<button class="btn-violet btn-login">LOGIN</button>*@
-    <input type="submit" class="btn-violet btn-login" value="LOGIN" />
-</div>
-</div>
+        <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center">
+            Forgot your password?<br />
+            <a>Click here</a>
+        </div>
+        <div class="col6 col-md-6 col-sm-6 col-xs-6">
+            @*<button class="btn-violet btn-login">LOGIN</button>*@
+            <input type="submit" class="btn-violet btn-login" value="LOGIN" />
+        </div>
+    </div>
+    <div class="rowmn">
+        <div class="icon-cn icon-fb fleft"><i class="fa fa-facebook"></i></div>
+        <div class="fleft txt-cn">Sign in with <b>Facebook</b> </div>
+    </div>
+    <div class="rowmn">
+        <div class="icon-cn icon-gp fleft"><i class="fa fa-google"></i></div>
+        <div class="fleft txt-cn txt-gp">Sign in with <b>Google Plus</b> </div>
+    </div>
 }
+  <script>
+      function OnSuccess(response) {
+          if (response.result == 'Redirect') {
+              // if the server returned a JSON object containing an url 
+              // property we redirect the browser to that url
+              window.location.href = response.url;
+          }
+      }
+        $(document).ready(function () {
+            function OnFailure(ajaxContext) {
+                return "Function failed to execute";
+                alert(ajaxContext.status); // 500
+                alert(ajaxContext.getResponseHeader("MyResponseHeader"));  // "My Message"
+            }
+          
+            //function OnSuccess() {
+            //    if (response.result == 'InvalidLogin') {
+            //        //show invalid login
+            //    }
+            //    else if (response.result == 'Error') {
+            //        //show error
+            //    }
+            //    else if (response.result == 'Redirect') {
+            //        //redirecting to main page from here for the time being.
+            //        window.location = response.url;
+            //    }
+            //}
+            function OnBegin() {
+
+            }
+            function OnComplete() {
+
+            }
+        });
+</script>

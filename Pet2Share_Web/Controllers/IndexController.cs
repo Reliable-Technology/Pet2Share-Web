@@ -14,40 +14,66 @@ namespace Pet2Share_Web.Controllers
     {
         //
         // GET: /Index/
-        public ActionResult Index(LoginModel _LoginModel, RegisterModel _RegisterModel)
+        public ActionResult Index()
         {
-            if (_LoginModel.Username != null)
-                Login(_LoginModel);
-            if (_RegisterModel.Email != null)
-                Register(_RegisterModel);
-            return View();
+            //if (_LoginModel.Username != null)
+            //    Login(_LoginModel);
+            //if (_RegisterModel.Email != null)
+            //    Register(_RegisterModel);
+
+            var IndexM = new IndexModel();
+            IndexM.Login = new LoginModel();
+            IndexM.Register = new RegisterModel();
+
+            return View(IndexM);
         }
 
         //
         // POST: Login
         [HttpPost]
-        [AllowAnonymous]
+
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
             var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, model.Password);
-            if (obj != null)
+            if (obj != null && obj.Id > 0)
             {
-                return RedirectToLocal("");
+                FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
+
+                return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
+                //return RedirectToLocal("");
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError("Error", "Username or password not correct.");
+                //return View("Index", model);
+                return PartialView("_Login", model);
+            }
+            //return View();
         }
 
         //
         // POST: Register
         [HttpPost]
-        [AllowAnonymous]
+
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
             try
             {
-                Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email, null);
+                var obj = Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email, null);
+                if (obj != null && obj.Id > 0)
+                {
+                    FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
+                    return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
+                    //return RedirectToLocal("");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "Could not register your profile, Please try again.");
+                    return PartialView("_Register", model);
+                }
+                //
                 ViewData["Message"] = "You have been successfully registered and logged in.";
             }
             catch (MembershipCreateUserException e)
@@ -55,8 +81,25 @@ namespace Pet2Share_Web.Controllers
                 ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
             }
 
-            return View();
+            return RedirectToLocal("");
         }
+
+
+        [HttpPost]
+        public JsonResult doesUserExist(string Email)
+        {
+            bool IsReferenceExists = !Pet2Share_API.Service.AccountManagement.IsExistingUser(Email);
+
+            return Json(IsReferenceExists, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
+
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

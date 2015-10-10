@@ -1,10 +1,16 @@
 ﻿@model Pet2Share_Web.Models.RegisterModel
-
-@using (Html.BeginForm("Index", "Index", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("Register", "Index", new AjaxOptions
+{
+    UpdateTargetId = "view2",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    
+    <p class="title-frm">Enter your personal details to create an account</p>
+ 
     <div class="rowmn row-frm">
         <div class="col6">
             @Html.Label("FirstName *")
@@ -23,6 +29,9 @@
             @Html.TextBoxFor(m => m.Email, new { @class = "txt" })
             @Html.ValidationMessageFor(m => m.Email)
         </div>
+
+    </div> <div class="rowmn row-frm">
+
         <div class="col6">
             @Html.Label("Password *")
             @Html.PasswordFor(m => m.Password, new { @class = "txt" })
@@ -35,17 +44,36 @@
         </div>
     </div>
     <div class="rowmn row-frm">
-        <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center"> By creating an account you agree to<br />
-            our <a>Terms & Privacy</a> </div>
+        <div class="col6 col-md-6 col-sm-6 col-xs-6 text-center">
+            By creating an account you agree to<br />
+            our <a>Terms & Privacy</a>
+        </div>
         <div class="col6 col-md-6 col-sm-6 col-xs-6">
             @*<button class="btn-violet btn-login">Create Account</button>*@
             <input type="submit" class="btn-violet btn-login" value="Create Account" />
         </div>
     </div>
+    <div class="rowmn">
+        <div class="icon-cn icon-fb fleft"><i class="fa fa-facebook"></i></div>
+        <div class="fleft txt-cn">Create with <b>Facebook</b> </div>
+    </div>
+    <div class="rowmn">
+        <div class="icon-cn icon-gp fleft"><i class="fa fa-google"></i></div>
+        <div class="fleft txt-cn txt-gp">Create with <b>Google Plus</b> </div>
+    </div>
 }
-@if (ViewData["Message"] != null)
-{
-<script language="javascript">
-    alert('@ViewData["Message"]');
+<script>
+    function OnSuccess(response) {
+        if (response.result == 'Redirect') {
+            // if the server returned a JSON object containing an url 
+            // property we redirect the browser to that url
+            window.location.href = response.url;
+        }
+    }
 </script>
-}
+@*@if (ViewData["Message"] != null)
+{
+    <script language="javascript">
+        alert('@ViewData["Message"]');
+    </script>
+}*@
