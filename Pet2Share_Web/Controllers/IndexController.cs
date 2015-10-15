@@ -38,7 +38,7 @@ namespace Pet2Share_Web.Controllers
             var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, model.Password);
             if (obj != null && obj.Id > 0)
             {
-                FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
+                FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.AvatarURL, true);
 
                 return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
                 //return RedirectToLocal("");
