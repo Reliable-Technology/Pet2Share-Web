@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<Pet2Share_API.Domain.Pet>
+
+<!-- Content Header (Page
+                header) -->
+<section class="content-header">
+
+    <h1>
+        Pets list
+    </h1>
+    <div class="breadcrumb"><a href="/Pets/Create" class="btn btn-primary btn-sm pull-right" style="display:inline">Add a new pet</a></div> 
+</section>
+
+<!-- Main content -->
+<section class="content">
+    @if (ViewData.ModelState["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewData.ModelState["Error"].Errors.First().ErrorMessage;
+        </div>
+    }
+    @if (ViewBag.Success != null && !string.IsNullOrWhiteSpace(ViewBag.Success))
+    {
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewBag.Success
+        </div>
+    }
+
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="col-md-6">
+                <!-- Widget: user widget style 1 -->
+                <div class="box box-widget widget-user">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header-small  bg-aqua-active">
+                        <h3 class="widget-user-username">@item.Name</h3>
+                        <h5 class="widget-user-desc">@item.FamilyName</h5>
+                    </div>
+                    <div class="widget-user-image-small">
+                        <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL??"")" alt="User Avatar">
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-muted text-center">
+                                    @Pet2Share_Web.BL.FormatText.Instance.FormatNotes(item.About ?? " ", 200)  &nbsp;
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block">
+                                    <a class="link-black" href="~/Pets/Details/@item.Id">
+                                        <i class="fa fa-paw"></i> Profile
+
+                                    </a>
+                                </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4 border-right">
+                                <div class="description-block">
+                                    <a class="link-black" href="~/Pets/Details/@item.Id">
+                                        <i class="fa fa-dashboard"></i> Feeds
+
+                                    </a>
+                                </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                            <div class="col-sm-4">
+                                <div class="description-block">
+                                    <a class="link-black" href="~/Pets/Details/@item.Id">
+                                        <i class="fa fa-comments"></i> Messages
+
+                                    </a>
+                                </div><!-- /.description-block -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div>
+                </div><!-- /.widget-user -->
+            </div>
+
+        }
+    </div>
+</section>
+<script>
+    $(function () {
+        $('.sidebar-menu li').removeClass('active');
+        $('.menuPets').addClass('active');
+
+    });
+
+</script>

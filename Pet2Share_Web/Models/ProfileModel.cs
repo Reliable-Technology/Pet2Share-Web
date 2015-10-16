@@ -67,12 +67,5 @@ namespace Pet2Share_Web.Models
         //TODO: Need to add more fields later
     }
     
-    public class ProfileModel
-    {
-
-       
-
-
-
-    }
+     
 }

@@ -100,29 +100,9 @@ namespace Pet2Share_Web.BL
                     //return GetValidImage("HomeFiles/Home_" + Pet2Share_Web.BL.BLAuth.Instance.GetUserID() + @"/" + temp[5]);
                 }
             }
-            return "/Images/NO_USER.png";
+            return "/Images/NoPet.png";
         }
-        public string GetValidImage(object virtualFilePath, bool UseLabeled_NoUser_AsFallbackImage = false)
-        {
-            string fallbackImage = "/Images/NO_USER.png";
-            if (UseLabeled_NoUser_AsFallbackImage)
-            {
-                fallbackImage = "/Images/NO_USER2.png";
-            }
-
-            if (virtualFilePath == null)
-            {
-                return fallbackImage;
-            }
-            else if (System.IO.File.Exists(HttpContext.Current.Server.MapPath("~/" + virtualFilePath.ToString())))
-            {
-                return "~/" + virtualFilePath.ToString();
-            }
-            else
-            {
-                return fallbackImage;
-            }
-        }
+       
 
         public string HashPassword(string pasword)
         {

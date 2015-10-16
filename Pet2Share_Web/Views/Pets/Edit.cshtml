@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Pet2Share_Web.Models.PetModel
+<!-- Content Header (Page
+                header) -->
+<section class="content-header">
+    <h1>
+       Edit pet profile
+    </h1>
+   
+</section>
+
+<!-- Main content -->
+<section class="content">
+    @if (ViewData.ModelState["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewData.ModelState["Error"].Errors.First().ErrorMessage;
+        </div>
+    }
+    @if (ViewBag.Success != null && !string.IsNullOrWhiteSpace(ViewBag.Success))
+    {
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewBag.Success
+        </div>
+    }
+
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- /.box-header -->
+                <!-- form start -->
+                @using (Html.BeginForm("Edit", "Pets", FormMethod.Post, new { @class = "form" }))
+            {
+        @Html.HiddenFor(p => p.PetId)
+        @Html.HiddenFor(p => p.UserId)
+        @Html.HiddenFor(p => p.PetTypeId)
+        <div class="box-body">
+            @*<div class="form-group">
+                    <label>Email/Username</label>
+                    @Html.TextBoxFor(p => p.Email, new { @class = "form-control" })
+                    <p class="help-block">@Html.ValidationMessageFor(p => p.Email)</p>
+
+                </div>*@
+            <div class="box-header with-border">
+                <h3 class="box-title">Personal Info</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        @Html.TextBoxFor(p => p.Name, new { @class = "form-control" })
+                        <p class="help-block">@Html.ValidationMessageFor(p => p.Name)</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Family Name</label>
+                        @Html.TextBoxFor(p => p.FamilyName, new { @class = "form-control" })
+                        <p class="help-block">@Html.ValidationMessageFor(p => p.FamilyName)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Favourite Food</label>
+                        @Html.TextBoxFor(p => p.FavFood, new { @class = "form-control" })
+                        <p class="help-block">@Html.ValidationMessageFor(p => p.FavFood)</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Date Of Birth</label>
+                        @Html.TextBoxFor(p => p.DateOfBirth, "{0:MM/dd/yyyy}", new { @class = "form-control datepicker" })
+                        <p class="help-block">@Html.ValidationMessageFor(p => p.DateOfBirth)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>About</label>
+                        @Html.TextAreaFor(p => p.AboutMe, new { @class = "form-control", @rows = "6" })
+                        <p class="help-block">@Html.ValidationMessageFor(p => p.AboutMe)</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div><!-- /.box-body -->
+
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+            }
+            </div><!-- /.box -->
+
+        </div>
+    </div>
+    </section>
+    <script>
+        $(function () {
+            $('.sidebar-menu li').removeClass('active');
+            $('.menuPets').addClass('active');
+
+        });
+
+    </script>
