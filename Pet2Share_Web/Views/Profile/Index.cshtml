@@ -43,7 +43,7 @@
                     <h3 class="widget-user-username">@(Model.P.FirstName + " " + Model.P.LastName)</h3>
                     <h5 class="widget-user-desc"></h5>
                 </div>
-                <div class="widget-user-image">
+                <div class="widget-user-image" >
                     <img class="img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage( Model.P.ProfilePictureURL))" alt="User Avatar">
                 </div>
                 <div class="box-footer">
@@ -142,12 +142,40 @@
 
         </div>
     </div>
-    </section>
-    <script>
+    
+
+    @*<div class="example-modal">
+
+        </div>*@
+   
+</section>
+@*<script>
     $(function () {
         $('.sidebar-menu li').removeClass('active');
         $('.menuProfile').addClass('active');
 
+        String.prototype.format = function () {
+            var str = this;
+            for (var i = 0; i < arguments.length; i++) {
+                var reg = new RegExp("\\{" + i + "\\}", "gm");
+                str = str.replace(reg, arguments[i]);
+            }
+            return str;
+        }
     });
+    function LoadUploadModal(ProfileId, User, Cover) {
+        //  $('.modal').show();
 
-    </script>
+        var context = $('#tn_select').load('/Upload/UploadImage/{0}/{1}/{2}'.format(ProfileId, User, Cover), function () {
+            initSelect(context);
+        });
+        // e.preventDefault();
+
+    }
+
+    $('#myModal').on('hidden.bs.modal', function (e) {
+        // do something...
+        $('#tn_select').empty();
+        $('div[class^=imgareaselect-]').remove();
+    })
+</script>*@

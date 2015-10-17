@@ -130,10 +130,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BL\BLAuth.cs" />
     <Compile Include="BL\FormatText.cs" />
+    <Compile Include="BL\ImageHelper.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\PetsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -141,6 +143,7 @@
     <Compile Include="Models\Pet2ShareMetaData.cs" />
     <Compile Include="Models\PetModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
+    <Compile Include="Models\UploadImageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Utils.cs" />
   </ItemGroup>
@@ -162,6 +165,7 @@
     <Content Include="assets\css\main.css" />
     <Content Include="assets\css\tabcontent.css" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\ImageArea.css" />
     <Content Include="assets\js\ie\backgroundsize.min.htc" />
     <Content Include="assets\js\ie\html5shiv.js" />
     <Content Include="assets\js\ie\respond.min.js" />
@@ -180,6 +184,10 @@
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="bootstrap\js\npm.js" />
+    <Content Include="Content\ajax.gif" />
+    <Content Include="Content\border-anim-h.gif" />
+    <Content Include="Content\border-anim-v.gif" />
+    <Content Include="Content\empty.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -1049,6 +1057,8 @@
     <Content Include="plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery.fancyupload.js" />
+    <Content Include="Scripts\jquery.imgareaselect.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1082,9 +1092,11 @@
     <Content Include="Views\Pets\Details.cshtml" />
     <Content Include="Views\Pets\Edit.cshtml" />
     <Content Include="Views\Pets\Create.cshtml" />
+    <Content Include="Views\Upload\UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="MasterImages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

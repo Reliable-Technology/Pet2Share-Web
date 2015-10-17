@@ -17,6 +17,8 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="~/plugins/datepicker/datepicker3.css">
+    <link href="@Url.Content("~/Content/ImageArea.css")" rel="stylesheet" />
+
     <!-- jQuery 2.1.4 -->
     <script src="~/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -261,8 +263,8 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
-                                    <li class="user-header">
-                                        <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic())" class="img-circle" alt="User Image">
+                                    <li class="user-header" >
+                                        <img style="cursor:pointer" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@Model.Id,1,0)" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic())" class="img-circle" alt="User Image">
                                         <p>
                                             @Pet2Share_Web.BL.BLAuth.Instance.GetFullName()
 
@@ -509,7 +511,25 @@
         <!-- Add the sidebar's background. This div must be placed
              immediately after the control sidebar -->
         @*<div class="control-sidebar-bg"></div>*@
+
     </div><!-- ./wrapper -->
+    <div class="modal bs-modal-lg" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><@*span aria-hidden="true">×</span>*@</button>
+                    <h4 class="modal-title">Modal Default</h4>
+                </div>
+                <div class="modal-body" id="tn_select">
+
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>*@
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- Bootstrap 3.3.5 -->
     <script src="~/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery-migrate-1.2.1.min.js"></script>
@@ -523,9 +543,42 @@
     <script src="~/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="~/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.imgareaselect.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fancyupload.js")"></script>
     <script>
         $('.datepicker').datepicker({ format: 'mm/dd/yyyy' });
         $(".phonemask").inputmask("(999) 999-9999", { "placeholder": "(___) ___-____" });
+
+    </script>
+    <script>
+        $(function () {
+            $('.sidebar-menu li').removeClass('active');
+            $('.menuProfile').addClass('active');
+
+            String.prototype.format = function () {
+                var str = this;
+                for (var i = 0; i < arguments.length; i++) {
+                    var reg = new RegExp("\\{" + i + "\\}", "gm");
+                    str = str.replace(reg, arguments[i]);
+                }
+                return str;
+            }
+        });
+        function LoadUploadModal(ProfileId, User, Cover) {
+            //  $('.modal').show();
+
+            var context = $('#tn_select').load('/Upload/UploadImage/{0}/{1}/{2}'.format(ProfileId, User, Cover), function () {
+                initSelect(context);
+            });
+            // e.preventDefault();
+
+        }
+
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            // do something...
+            $('#tn_select').empty();
+            $('div[class^=imgareaselect-]').remove();
+        })
     </script>
 
     <!-- adminlte for demo purposes

@@ -1,0 +1,54 @@
+﻿@model Pet2Share_Web.Models.UploadImageModel
+@{
+    ViewBag.Title = "Image uploader";
+    Layout = null;
+}
+
+<link href="@Url.Content("~/Content/ImageArea.css")" rel="stylesheet" />
+
+
+<script src="@Url.Content("~/Scripts/jquery.imgareaselect.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.fancyupload.js")"></script>
+<script>
+    $(document).ready(function () {
+        initSelect();
+    });
+</script>
+
+
+
+
+<h2>Upload an image</h2>
+@using (Html.BeginForm("UploadImage", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.X)
+    @Html.HiddenFor(model => model.Y)
+    @Html.HiddenFor(model => model.Width)
+    @Html.HiddenFor(model => model.Height)
+    @Html.HiddenFor(m => m.IsUser)
+    @Html.HiddenFor(m => m.IsCover)
+    @Html.HiddenFor(m => m.UploadedForId)
+
+
+
+    <div id="upload-choices">
+
+        <div class="editor-row">
+            <div class="editor-label">
+                Upload
+            </div><div class="editor-field">
+                @Html.TextBoxFor(m => m.File, new { type = "file" })
+                @Html.ValidationMessageFor(model => model.File)
+            </div>
+        </div>
+        <div class="editor-row">
+            @Html.ValidationSummary(true)
+        </div>
+    </div>
+    <div id="upload-cut">
+        <img alt="Field for image cutting" id="preview" src="@Url.Content("~/Content/empty.png")" />
+    </div>
+    <div class="clear">
+        <button type="submit">Upload</button>
+    </div>
+}

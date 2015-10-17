@@ -18,6 +18,13 @@ namespace Pet2Share_Web
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Index", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "PicUplod",
+                url: "Upload/UploadImage/{id}/{isUser}/{isCover}",
+                defaults: new { controller = "Upload", action = "UploadImage", id = UrlParameter.Optional, isUser = UrlParameter.Optional, isCover = UrlParameter.Optional }
+            );
+
         }
     }
 }
