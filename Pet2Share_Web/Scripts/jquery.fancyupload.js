@@ -1,4 +1,9 @@
-﻿var initSelect = function (context) {
+﻿var initSelect = function (context, isCoverPicUpload) {
+
+    if (typeof isCoverPicUpload === "undefined" || isCoverPicUpload === null) {
+        isCoverPicUpload = 0;
+    }
+
     context = context || $(document);
     //Get the button of the form of the context
     var button = $('button', context).attr('disabled', true);
@@ -13,7 +18,7 @@
         ias.setOptions({
             x1: 0,
             y1: 0,
-            x2: $(this).width()>500?200:$(this).width(),
+            x2: $(this).width() > 500 ? 200 : $(this).width(),
             y2: $(this).height() > 500 ? 200 : $(this).width(),
             show: true
         });
@@ -29,7 +34,7 @@
 
     //Initialize the image area select plugin
     var ias = preview.imgAreaSelect({
-        aspectRatio: "1:1",
+        aspectRatio: isCoverPicUpload == 0 ? "1:1" : "3:1",
         handles: true,
         instance: true,
         parent: 'body',

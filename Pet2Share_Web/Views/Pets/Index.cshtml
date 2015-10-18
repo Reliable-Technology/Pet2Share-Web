@@ -11,7 +11,7 @@
     <h1>
         Pets list
     </h1>
-    <div class="breadcrumb"><a href="/Pets/Create" class="btn btn-primary btn-sm pull-right" style="display:inline">Add a new pet</a></div> 
+    <div class="breadcrumb"><a href="/Pets/Create" class="btn btn-primary btn-sm pull-right" style="display:inline">Add a new pet</a></div>
 </section>
 
 <!-- Main content -->
@@ -40,12 +40,12 @@
                 <!-- Widget: user widget style 1 -->
                 <div class="box box-widget widget-user">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
-                    <div class="widget-user-header-small  bg-aqua-active">
+                    <div class="widget-user-header-small  bg-black" title="Click to upload new Cover pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@item.Id,0,1)" style="background: url('@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.CoverPictureURL))') center center;background-size:cover; cursor:pointer;">
                         <h3 class="widget-user-username">@item.Name</h3>
                         <h5 class="widget-user-desc">@item.FamilyName</h5>
                     </div>
-                    <div class="widget-user-image-small">
-                        <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL??"")" alt="User Avatar">
+                    <div class="widget-user-image-small" style="cursor: pointer;" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@item.Id,0,0)">
+                        <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL ?? "", false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="User Avatar">
                     </div>
                     <div class="box-footer">
                         <div class="row">

@@ -121,7 +121,7 @@ $.imgAreaSelect = function (img, options) {
     }
 
     function adjust() {
-        debugger;
+       
         if (!$img.width())
             return;
 

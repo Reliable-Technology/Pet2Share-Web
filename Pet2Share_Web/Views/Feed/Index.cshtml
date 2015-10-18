@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<section class="content-header">
+         <h1>
+             User Feed
+         </h1>
+        <ol class="breadcrumb">
+             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+             <li><a href="#">Examples</a></li>
+             <li class="active">User profile</li>
+         </ol>
+    </section>*@
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Partial("~/Views/Post/Index.cshtml", new Pet2Share_Web.Models.PostModal(Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), true))
+            <div id="feedContainer">
+                @Html.Partial("_FeedPartial", new List<Pet2Share_API.Domain.Post>())
+            </div>
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+
+
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <p id="noPostElement" class="text-muted center">No Posts to show</p>
+                        <p id="loading"><img width="16px" src="@Url.Content("~/Content/loading.gif")"></p>
+
+                        <p id="noMorePostsElement" style="display:none" class="text-muted center">No more posts to show</p>
+                        <p id="btnLoadMore" style="display:none"><button id="btnload" class="btn-primary btn-sm" onclick="loadFeed(); return false;">See More</button>     </p>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div><!-- /.col -->
+
+    </div><!-- /.row -->
+
+</section><!-- /.content -->
+
+<script type="text/javascript">
+
+    var page = 1;
+    var _inCallback = false;
+
+    function loadFeed() {
+        try {
+
+
+            if (page > 0 && !_inCallback) {
+                _inCallback = true;
+
+                $('p#loading').show();
+                $.get("/Feed/Index/" + page, function (data) {
+                    if (data != '') {
+                        $("#feedContainer").append(data);
+                        $('p#noPostElement').hide();
+                        $('p#btnLoadMore').hide();
+                        $('p#noMorePostsElement').hide();
+                        page++;
+                    }
+                    else {
+                        //show load more button
+                        $('p#btnLoadMore').show();
+                        $('p#noMorePostsElement').show();
+
+                    }
+
+                    _inCallback = false;
+                    $('p#loading').hide();
+                    if (data.trim() != '') {
+                        CheckIfMoreFeedsNeeded();
+                    }
+
+                }).fail(function () {
+                    $('p#loading').hide();
+                    _inCallback = false;
+                    setTimeout(function () {
+                        loadFeed();
+                    }, 5000);
+                });
+            }
+        }
+        catch (ex) {
+            $('p#loading').hide();
+            _inCallback = false;
+            setTimeout(function () {
+                loadFeed();
+            }, 5000);
+        }
+    }
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            loadFeed();
+        }
+    });
+
+    $(function () {
+        $('.sidebar-menu li').removeClass('active');
+        $('.menuNewsfeed').addClass('active');
+        loadFeed();
+
+    });
+
+    function CheckIfMoreFeedsNeeded() {
+        if ($("body").height() <= $(window).height()) {
+            loadFeed()
+        }
+
+    }
+</script>

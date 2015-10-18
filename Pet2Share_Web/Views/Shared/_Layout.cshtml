@@ -258,13 +258,13 @@
                         {
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage( Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic())" class="user-image" alt="User Image">
+                                    <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="user-image" alt="User Image">
                                     <span class="hidden-xs">@Pet2Share_Web.BL.BLAuth.Instance.GetFullName()</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
-                                    <li class="user-header" >
-                                        <img style="cursor:pointer" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@Model.Id,1,0)" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic())" class="img-circle" alt="User Image">
+                                    <li class="user-header">
+                                        <img style="cursor:pointer" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@Pet2Share_Web.BL.BLAuth.Instance.GetUserID(),1,0)" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
                                         <p>
                                             @Pet2Share_Web.BL.BLAuth.Instance.GetFullName()
 
@@ -309,7 +309,7 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage( Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic())" class="img-circle" alt="User Image">
+                        <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>@Pet2Share_Web.BL.BLAuth.Instance.GetFullName()</p>
@@ -517,7 +517,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><@*span aria-hidden="true">×</span>*@</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">@*<span aria-hidden="true">×</span>*@</button>
                     <h4 class="modal-title">Modal Default</h4>
                 </div>
                 <div class="modal-body" id="tn_select">
@@ -568,7 +568,7 @@
             //  $('.modal').show();
 
             var context = $('#tn_select').load('/Upload/UploadImage/{0}/{1}/{2}'.format(ProfileId, User, Cover), function () {
-                initSelect(context);
+                initSelect(context, Cover);
             });
             // e.preventDefault();
 
@@ -577,8 +577,20 @@
         $('#myModal').on('hidden.bs.modal', function (e) {
             // do something...
             $('#tn_select').empty();
-            $('div[class^=imgareaselect-]').remove();
-        })
+            //$('div[class^=imgareaselect-]').remove();
+            //$('div[class^=undefined-]').remove();
+        });
+        $.fn.pressEnter = function (fn) {
+
+            return this.each(function () {
+                $(this).bind('enterPress', fn);
+                $(this).keyup(function (e) {
+                    if (e.keyCode == 13) {
+                        $(this).trigger("enterPress");
+                    }
+                })
+            });
+        };
     </script>
 
     <!-- adminlte for demo purposes

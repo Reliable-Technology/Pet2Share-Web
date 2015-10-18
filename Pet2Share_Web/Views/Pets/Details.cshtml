@@ -34,12 +34,12 @@
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
                 <!-- Add the bg color to the header using any of the bg-* classes -->
-                <div class="widget-user-header bg-black" style="background: url('../dist/img/photo1.png') center center;">
+                <div class="widget-user-header bg-black" style="background: url('@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Model.PetProfileCover))') center center;background-size:cover;">
                     <h3 class="widget-user-username">@(Model.Name)</h3>
                     <h5 class="widget-user-desc">@(Model.FamilyName)</h5>
                 </div>
                 <div class="widget-user-image">
-                    <img class="img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage( Model.PetProfilePic))" alt="User Avatar">
+                    <img class="img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Model.PetProfilePic, false, Pet2Share_Web.BL.FormatText.Thumbnail400px))" alt="User Avatar">
                 </div>
                 <div class="box-footer">
                     <div class="row">

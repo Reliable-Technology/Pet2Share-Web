@@ -40,7 +40,7 @@ namespace Pet2Share_Web.Controllers
             {
                 FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.ProfilePictureURL, true);
 
-                return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
+                return Json(new { result = "Redirect", url = Url.Action("Index", "Feed") });
                 //return RedirectToLocal("");
             }
             else

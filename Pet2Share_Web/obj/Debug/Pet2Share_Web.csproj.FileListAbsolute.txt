@@ -153,3 +153,7 @@ E:\work\Pet2Share-Web\Pet2Share_Web\bin\System.Web.WebPages.Razor.xml
 E:\work\Pet2Share-Web\Pet2Share_Web\obj\Debug\Pet2Share_Web.csprojResolveAssemblyReference.cache
 E:\work\Pet2Share-Web\Pet2Share_Web\obj\Debug\Pet2Share_Web.dll
 E:\work\Pet2Share-Web\Pet2Share_Web\obj\Debug\Pet2Share_Web.pdb
+E:\work\Pet2Share-Web\Pet2Share_Web\bin\ImageResizer.dll
+E:\work\Pet2Share-Web\Pet2Share_Web\bin\ImageResizer.Mvc.dll
+E:\work\Pet2Share-Web\Pet2Share_Web\bin\ImageResizer.xml
+E:\work\Pet2Share-Web\Pet2Share_Web\bin\ImageResizer.Mvc.xml

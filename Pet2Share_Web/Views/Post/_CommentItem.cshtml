@@ -1,0 +1,12 @@
+﻿@model Pet2Share_API.Domain.Comment
+    <div class="box-comment">
+        <!-- User image -->
+        <img class="img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((Model.SUser.ProfilePictureURL), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image">
+        <div class="comment-text">
+            <span class="username">
+                @Model.SUser.Name
+                <span class="text-muted pull-right">@Model.DateAdded.ToString("ddd, dd MMM")</span>
+            </span><!-- /.username -->
+            @Model.CommentDescription
+        </div><!-- /.comment-text -->
+    </div><!-- /.box-comment -->

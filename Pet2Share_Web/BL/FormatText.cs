@@ -18,6 +18,10 @@ namespace Pet2Share_Web.BL
         private const string password = "this@is_@retWrsd!!3232";
         private const string Mkey = "@SepdtR01212$2!#";
 
+
+        public const string CommonThumbnail = "?width=100";
+        public const string Thumbnail400px = "?width=400";
+
         private static void Init()
         {
             encryption = new RijndaelManaged();
@@ -396,7 +400,7 @@ namespace Pet2Share_Web.BL
             }
         }
 
-        public string GetValidImage(object virtualFilePath, bool UseLabeled_NoUser_AsFallbackImage = false)
+        public string GetValidImage(object virtualFilePath, bool UseLabeled_NoUser_AsFallbackImage = false, string thumbOpt = "")
         {
             string fallbackImage = "/Images/NoPet.jpg";
             try
@@ -425,7 +429,7 @@ namespace Pet2Share_Web.BL
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        return virtualFilePath.ToString();
+                        return virtualFilePath + thumbOpt;
                     }
                     else
                     {

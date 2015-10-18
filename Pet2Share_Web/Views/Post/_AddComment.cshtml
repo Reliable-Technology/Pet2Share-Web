@@ -1,0 +1,51 @@
+﻿@model Pet2Share_Web.Models.PostCommentModal
+
+
+
+<!-- /.box-footer -->
+<div class="box-footer">
+
+
+    <img class="img-responsive img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="alt text">
+    <!-- .img-push is used to add margin to elements next to floating images -->
+    <div class="img-push">
+        @Html.HiddenFor(p => p.PostId)
+
+        @Html.TextBoxFor(p => p.PostMessage, new { maxlength = 300, placeholder = "Press enter to post comment", @id = "txtComment_" + Model.PostId, @class = "form-control input-sm" })
+        <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
+    </div>
+
+</div><!-- /.box-footer -->
+
+<script>
+
+
+
+    $(function () {
+        $('#@("txtComment_"+Model.PostId)').pressEnter(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/post/AddComment",
+                data: { "PostId":@Model.PostId, "CommentDesc": $('#@("txtComment_"+Model.PostId)').val() },
+                success: function (data) {
+                    debugger;
+                    if((data.Error ==null || data.Error==undefined )&& data.CommentData!=null || data.CommentData!=undefined )
+                        $('#@("divComment_"+Model.PostId)').append(data.CommentData);
+                    $('#@("txtComment_"+Model.PostId)').val("");
+                },
+                fail: function () {
+
+                },done:function( msg ) {
+                    alert( "Data Saved: " + msg );
+                }
+
+            });
+        });
+
+    });
+
+
+
+
+</script>

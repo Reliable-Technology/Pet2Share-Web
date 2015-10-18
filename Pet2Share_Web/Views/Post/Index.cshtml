@@ -1,0 +1,26 @@
+﻿@model Pet2Share_Web.Models.PostModal
+
+@using (Html.BeginForm("AddPost", "Post", FormMethod.Post, new { @class = "form" }))
+{
+    @Html.HiddenFor(p => p.ProfileId)
+    @Html.HiddenFor(p => p.IsUser)
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Post a Status</h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div><!-- /.box-tools -->
+        </div><!-- /.box-header -->
+        <div class="box-body" style="display: block;">
+            <div class="form-group">
+                @Html.TextAreaFor(p => p.PostMessage, new { maxlength = 300, placeholder = "What's new..", @class = "form-control", rows = "3" })
+                <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
+
+            </div>
+            <div class="col-md-3 pull-right">
+
+                <button type="submit" class="btn btn-primary btn-block">Post</button>
+            </div>
+        </div><!-- /.box-body -->
+    </div>
+}
