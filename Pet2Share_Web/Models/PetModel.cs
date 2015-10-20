@@ -6,11 +6,14 @@ using System.Web;
 
 namespace Pet2Share_Web.Models
 {
-    public class PetModel
+    public class PetModel    
     {
+
         public int PetId { get; set; }
 
         public int? UserId { get; set; }
+
+        public Pet2Share_API.Domain.SmallUser SUser { get; set; }
 
         public int? PetTypeId { get; set; }
 
@@ -40,5 +43,12 @@ namespace Pet2Share_Web.Models
 
         //TODO: Need to add more fields later
     }
+
+    public class PetsListModel
+    {
+        public Pet2Share_API.Domain.SmallUser SUser { get; set; }
+        public List<Pet2Share_API.Domain.Pet> PetsList { get; set; }
+    }
+
 
 }

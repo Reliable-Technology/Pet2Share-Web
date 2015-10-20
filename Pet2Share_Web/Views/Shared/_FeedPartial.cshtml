@@ -6,8 +6,8 @@
     <div class="box box-widget">
         <div class="box-header with-border">
             <div class="user-block">
-                <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((item.IsPostByPet?item.SPet.ProfilePictureURL:item.SUser.ProfilePictureURL), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image">
-                <span class="username"><a href="#">@(item.IsPostByPet ? item.SPet.Name : item.SUser.Name) @(item.Id)</a></span>
+                <a href="/Profile"> <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((item.IsPostByPet?item.SPet.ProfilePictureURL:item.SUser.ProfilePictureURL), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image"></a>
+                <span class="username"><a href="#">@(item.IsPostByPet ? item.SPet.Name : item.SUser.Name)</a></span>
                 <span class="description">Posted on @item.DateAdded.ToString("ddd, dd MMM")</span>
             </div><!-- /.user-block -->
             <!-- <div class="box-tools">
@@ -28,15 +28,11 @@
             <button class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
             <span class="pull-right text-muted">@item.PostLikeCount likes - @item.PostCommentCount comments</span>
         </div><!-- /.box-body -->
-        @if (item.Comments.Count > 0)
-        {
-            <div class="box-footer box-comments" id="divComment_@item.Id" style="@(item.Comments.Count>0 ? "display:block" : "display:none")">
-                @foreach (var Comment in item.Comments.OrderByDescending(p=>p.DateAdded))
-                {
-                @Html.Partial("~/Views/Post/_CommentItem.cshtml", Comment)
-                }
-            </div>
-        }
+        <div class="box-footer box-comments" id="divComment_@item.Id" style="@(item.Comments.Count>0 ? "display:block" : "display:none")">
+
+            @Html.Partial("~/Views/Post/_CommentItem.cshtml", item.Comments)
+
+        </div>
         @Html.Partial("~/Views/Post/_AddComment.cshtml", new Pet2Share_Web.Models.PostCommentModal(item.Id, Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), true))
     </div>
 }

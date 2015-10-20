@@ -5614,7 +5614,7 @@ button {
     padding: 7px 10px;
     border-radius: 4px;
     font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    /*text-shadow: 0 1px 0 rgba(0,0,0,0.4);*/
     margin: 5px 0;
 }
 
@@ -5624,7 +5624,7 @@ button {
     }
 
     button:not(:disabled):hover {
-        box-shadow: 0 0 10px #666;
+        /*box-shadow: 0 0 10px #666;*/
         cursor: pointer;
     }
 
@@ -5656,4 +5656,9 @@ button {
     margin: 4px;
     float: left;
     cursor: pointer;
+}
+
+
+.comment-text {
+    word-break:break-all;
 }

@@ -44,7 +44,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="../../index2.html" class="logo">
+            <a href="@(User.Identity.IsAuthenticated ? Url.Action("Index", "Profile") : @Url.Action("Index"))" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>P2S</b></span>
                 <!-- logo for regular state and mobile devices -->
@@ -285,7 +285,8 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+
+                                            <a href="@Url.Action("Index","Profile")" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
                                             <a href="@Url.Action("LogOut", "Index")" class="btn btn-default btn-flat">Sign out</a>
@@ -312,7 +313,12 @@
                         <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>@Pet2Share_Web.BL.BLAuth.Instance.GetFullName()</p>
+                        <p>
+                            <a href="@Url.Action("Index","Profile")">
+                                @Pet2Share_Web.BL.BLAuth.Instance.GetFullName()
+
+                            </a>
+                        </p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -552,8 +558,6 @@
     </script>
     <script>
         $(function () {
-            $('.sidebar-menu li').removeClass('active');
-            $('.menuProfile').addClass('active');
 
             String.prototype.format = function () {
                 var str = this;

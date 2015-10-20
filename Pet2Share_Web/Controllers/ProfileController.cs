@@ -12,27 +12,33 @@ namespace Pet2Share_Web.Controllers
     {
         //
         // GET: /Profile/
-
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(int? id)
         {
+
             try
             {
-                var result = new UserProfileManager(BL.BLAuth.Instance.GetUserID());
-                if (result.user.Id == BL.BLAuth.Instance.GetUserID())
+                UserProfileManager result;
+                result = new UserProfileManager(id ?? BL.BLAuth.Instance.GetUserID());
+                if (result.user.Id == (id ?? BL.BLAuth.Instance.GetUserID()))
                 {
                     return View(result.user);
                 }
+
+                return RedirectToAction("NotFound", "Error");
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("Error", ex.Message);
                 //redirect to error page
+                return View();
             }
-            return View();
+
         }
 
         //
         // GET: /Profile/Details/5
-
+        [Authorize]
         public ActionResult Details(int id)
         {
 
@@ -44,7 +50,7 @@ namespace Pet2Share_Web.Controllers
 
         //
         //Get for updating loggedin user profile
-
+        [Authorize]
         public ActionResult Edit()
         {
             UserProfileManager userObj = new UserProfileManager(BL.BLAuth.Instance.GetUserID());
@@ -80,7 +86,7 @@ namespace Pet2Share_Web.Controllers
 
         //
         // POST: /Profile/Edit/5
-
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(UserProfileModel userObj)
         {
@@ -93,7 +99,7 @@ namespace Pet2Share_Web.Controllers
                 if (result.IsSuccessful)
                 {
                     ViewBag.Success = "Profile updated successfully.";
-                    return RedirectToAction("Index","Profile");
+                    return RedirectToAction("Index", "Profile");
                 }
                 else
                 {

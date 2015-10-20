@@ -14,7 +14,7 @@ namespace Pet2Share_Web.Controllers
     {
         //
         // GET: /Home/UploadImage
-
+        [Authorize]
         public ActionResult UploadImage(int id, int isUser, int isCover)
         {
             ////Just to distinguish between ajax request (for: modal dialog) and normal request
@@ -34,6 +34,7 @@ namespace Pet2Share_Web.Controllers
         // POST: /Home/UploadImage
 
         [HttpPost]
+        [Authorize]
         public ActionResult UploadImage(UploadImageModel model)
         {
             //Check if all simple data annotations are valid

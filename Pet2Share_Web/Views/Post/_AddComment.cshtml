@@ -14,6 +14,9 @@
         @Html.TextBoxFor(p => p.PostMessage, new { maxlength = 300, placeholder = "Press enter to post comment", @id = "txtComment_" + Model.PostId, @class = "form-control input-sm" })
         <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
     </div>
+    <div class="text-center">
+        <button class="btn btn-block btn-default btn-xs" onclick="LoadComments(@Model.PostId)" id="@("btnLoadComment_"+Model.PostId)">See all</button>
+    </div>
 
 </div><!-- /.box-footer -->
 
@@ -22,17 +25,29 @@
 
 
     $(function () {
-        $('#@("txtComment_"+Model.PostId)').pressEnter(function () {
 
+
+
+        $('#@("txtComment_"+Model.PostId)').pressEnter(function () {
+           
+            if($(this).val().length>300)
+            {
+                $(this).val().substring(0, 300);
+                alert("at most 300 charaters allowed in comments");
+                return false;
+            }
             $.ajax({
                 type: "POST",
                 url: "/post/AddComment",
                 data: { "PostId":@Model.PostId, "CommentDesc": $('#@("txtComment_"+Model.PostId)').val() },
                 success: function (data) {
-                    debugger;
+                    
                     if((data.Error ==null || data.Error==undefined )&& data.CommentData!=null || data.CommentData!=undefined )
+                    {
                         $('#@("divComment_"+Model.PostId)').append(data.CommentData);
-                    $('#@("txtComment_"+Model.PostId)').val("");
+                        $('#@("divComment_"+Model.PostId)').show();
+                        $('#@("txtComment_"+Model.PostId)').val("");
+                    }
                 },
                 fail: function () {
 

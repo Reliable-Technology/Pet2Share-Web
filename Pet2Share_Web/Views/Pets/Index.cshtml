@@ -2,16 +2,17 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model List<Pet2Share_API.Domain.Pet>
+@model Pet2Share_Web.Models.PetsListModel
 
 <!-- Content Header (Page
                 header) -->
 <section class="content-header">
 
     <h1>
-        Pets list
+        @(Model.SUser.Name)'s pets list
     </h1>
-    <div class="breadcrumb"><a href="/Pets/Create" class="btn btn-primary btn-sm pull-right" style="display:inline">Add a new pet</a></div>
+    @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Model.SUser.Id))
+    {  <div class="breadcrumb" style="min-height: 45px;"><a href="/Pets/Create" class="btn btn-primary btn-sm pull-right" style="display:inline">Add a new pet</a></div>}
 </section>
 
 <!-- Main content -->
@@ -33,13 +34,23 @@
 
     <div class="row">
 
-        @foreach (var item in Model)
+        @if (Model.PetsList.Count <= 0)
         {
+            <div class="col-md-12 text-center">
+                <p class="text-muted">No pets added yet!!</p>
+            </div>
+        }
+        else
+        {
+            foreach (var item in Model.PetsList)
+            {
 
-            <div class="col-md-6">
-                <!-- Widget: user widget style 1 -->
-                <div class="box box-widget widget-user">
-                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="col-md-6">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Model.SUser.Id))
+                    {
                     <div class="widget-user-header-small  bg-black" title="Click to upload new Cover pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@item.Id,0,1)" style="background: url('@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.CoverPictureURL))') center center;background-size:cover; cursor:pointer;">
                         <h3 class="widget-user-username">@item.Name</h3>
                         <h5 class="widget-user-desc">@item.FamilyName</h5>
@@ -47,45 +58,59 @@
                     <div class="widget-user-image-small" style="cursor: pointer;" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@item.Id,0,0)">
                         <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL ?? "", false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="User Avatar">
                     </div>
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="text-muted text-center">
-                                    @Pet2Share_Web.BL.FormatText.Instance.FormatNotes(item.About ?? " ", 200)  &nbsp;
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 border-right">
-                                <div class="description-block">
-                                    <a class="link-black" href="~/Pets/Details/@item.Id">
-                                        <i class="fa fa-paw"></i> Profile
-
-                                    </a>
-                                </div><!-- /.description-block -->
-                            </div><!-- /.col -->
-                            <div class="col-sm-4 border-right">
-                                <div class="description-block">
-                                    <a class="link-black" href="~/Pets/Details/@item.Id">
-                                        <i class="fa fa-dashboard"></i> Feeds
-
-                                    </a>
-                                </div><!-- /.description-block -->
-                            </div><!-- /.col -->
-                            <div class="col-sm-4">
-                                <div class="description-block">
-                                    <a class="link-black" href="~/Pets/Details/@item.Id">
-                                        <i class="fa fa-comments"></i> Messages
-
-                                    </a>
-                                </div><!-- /.description-block -->
-                            </div><!-- /.col -->
-                        </div><!-- /.row -->
+                    }
+                    else
+                    {
+                    <div class="widget-user-header-small  bg-black" style="background: url('@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.CoverPictureURL))') center center;background-size:cover; cursor:pointer;">
+                        <h3 class="widget-user-username">@item.Name</h3>
+                        <h5 class="widget-user-desc">@item.FamilyName</h5>
                     </div>
-                </div><!-- /.widget-user -->
-            </div>
+                    <div class="widget-user-image-small" style="cursor: pointer;">
+                        <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL ?? "", false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="User Avatar">
+                    </div>
+                    }
 
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-muted text-center">
+                                        @Pet2Share_Web.BL.FormatText.Instance.FormatNotes(item.About ?? " ", 200)  &nbsp;
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <a class="link-black" href="~/Pets/Details/@item.Id">
+                                            <i class="fa fa-paw"></i> Profile
+
+                                        </a>
+                                    </div><!-- /.description-block -->
+                                </div><!-- /.col -->
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <a class="link-black" href="~/Pets/Details/@item.Id">
+                                            <i class="fa fa-dashboard"></i> Feeds
+
+                                        </a>
+                                    </div><!-- /.description-block -->
+                                </div><!-- /.col -->
+                                <div class="col-sm-4">
+                                    <div class="description-block">
+                                        <a class="link-black" href="~/Pets/Details/@item.Id">
+                                            <i class="fa fa-comments"></i> Messages
+
+                                        </a>
+                                    </div><!-- /.description-block -->
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                        </div>
+                    </div><!-- /.widget-user -->
+                </div>
+
+            }
         }
+
     </div>
 </section>
 <script>

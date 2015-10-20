@@ -1,4 +1,5 @@
-﻿using Pet2Share_API.Service;
+﻿using Pet2Share_API.Domain;
+using Pet2Share_API.Service;
 using Pet2Share_Web.BL;
 using Pet2Share_Web.Models;
 using System;
@@ -20,6 +21,7 @@ namespace Pet2Share_Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult AddPost(PostModal PostObj)
         {
             try
@@ -50,6 +52,7 @@ namespace Pet2Share_Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult AddComment(string PostId, string CommentDesc)
         {
             try
@@ -63,7 +66,7 @@ namespace Pet2Share_Web.Controllers
                 {
                     ViewBag.Success = "Comment added successfully";
                     //return View(result); //RedirectToAction("Index", "Feed");
-                    return Json(new { CommentData = RenderPartialViewToString("_CommentItem", result) });
+                    return Json(new { CommentData = RenderPartialViewToString("_CommentItem", new List<Comment>() { result }) });
                 }
                 else
                 {
@@ -73,6 +76,35 @@ namespace Pet2Share_Web.Controllers
                 }
 
                 return Json(new { Error = "Comment not posted." });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public JsonResult GetComments(string PostId, string CommentDesc)
+        {
+            try
+            {
+                int Pid = 0;
+                int.TryParse(PostId, out Pid);
+
+                // TODO: Add update logic here
+                var result = PostManager.GetComments(Pid);
+                if (result.Count > 0)
+                {
+                    return Json(new { CommentData = RenderPartialViewToString("_CommentItem", result) });
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "");
+                }
+
+                return Json(new { Error = "" });
 
             }
             catch (Exception ex)

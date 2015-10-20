@@ -14,15 +14,19 @@ namespace Pet2Share_Web.Controllers
     {
         //
         // GET: /Pets/
-
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(int? id)
         {
             try
             {
-                var result = new UserProfileManager(BL.BLAuth.Instance.GetUserID());
-                if (result.user.Id == BL.BLAuth.Instance.GetUserID())
+                var result = new UserProfileManager(id ?? BL.BLAuth.Instance.GetUserID());
+                if (result.user.Id == (id ?? BL.BLAuth.Instance.GetUserID()))
                 {
-                    return View(result.user.Pets.ToList());
+                    return View(new PetsListModel() { SUser = new SmallUser(result.user), PetsList = result.user.Pets.ToList() });
+                }
+                else
+                {
+                    return RedirectToAction("NotFound", "Error");
                 }
             }
             catch (Exception ex)
@@ -35,11 +39,11 @@ namespace Pet2Share_Web.Controllers
 
         //
         // GET: /Pets/Details/5
-
+        [Authorize]
         public ActionResult Details(int id)
         {
             var PetDetails = Pet.GetById(id);
-            if (PetDetails.UserId == BLAuth.Instance.GetUserID())
+            if (PetDetails != null && PetDetails.Id > 0)
             {
                 PetModel PDetails = new PetModel
                 {
@@ -52,20 +56,19 @@ namespace Pet2Share_Web.Controllers
                     PetTypeId = PetDetails.PetTypeId,
                     UserId = PetDetails.UserId,
                     PetProfilePic = PetDetails.ProfilePictureURL,
-                    PetProfileCover = PetDetails.CoverPictureURL
+                    PetProfileCover = PetDetails.CoverPictureURL,
+                    SUser = new SmallUser(PetDetails.UserId ?? 0)
                 };
 
                 return View(PDetails);
 
             }
-
-            //redirect to error page
-            return View();
+            return RedirectToAction("NotFound", "Error");
         }
 
         //
         // GET: /Pets/Create
-
+        [Authorize]
         public ActionResult Create()
         {
             PetModel petDetails = new PetModel();
@@ -78,33 +81,34 @@ namespace Pet2Share_Web.Controllers
         // POST: /Pets/Create
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create(PetModel PetObj)
         {
-            
-                // TODO: Add insert logic here
-                try
-                {
-                    // TODO: Add update logic here
-                    var PetResult = PetProfileManager.AddProfile(PetObj.Name, PetObj.FamilyName, PetObj.UserId ?? 0, PetObj.PetTypeId, PetObj.DateOfBirth, "", "", PetObj.AboutMe, PetObj.FavFood);
-                    if (PetResult.IsSuccessful)
-                    {
-                        return RedirectToAction("Details", new { id = PetObj.PetId });
-                    }
 
-                    return RedirectToAction("Index");
-                }
-                catch
+            // TODO: Add insert logic here
+            try
+            {
+                // TODO: Add update logic here
+                var PetResult = PetProfileManager.AddProfile(PetObj.Name, PetObj.FamilyName, PetObj.UserId ?? 0, PetObj.PetTypeId, PetObj.DateOfBirth, "", "", PetObj.AboutMe, PetObj.FavFood);
+                if (PetResult.IsSuccessful)
                 {
-                    ModelState.AddModelError("Error", "Pet could not be created right now.");
-                    return View(PetObj);
+                    return RedirectToAction("Details", new { id = PetObj.PetId });
                 }
-                
-            
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ModelState.AddModelError("Error", "Pet could not be created right now.");
+                return View(PetObj);
+            }
+
+
         }
 
         //
         // GET: /Pets/Edit/5
-
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var PetDetails = Pet.GetById(id);
@@ -128,8 +132,7 @@ namespace Pet2Share_Web.Controllers
 
             }
 
-            ModelState.AddModelError("Error", "Profile not updated");
-            return View();
+            return RedirectToAction("NotFound", "Error");
 
         }
 
@@ -137,6 +140,7 @@ namespace Pet2Share_Web.Controllers
         // POST: /Pets/Edit/5
 
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(PetModel PetObj)
         {
             try

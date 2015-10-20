@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Pet2Share_Web.Models.ConnectionViewModel
+
+<section class="content-header">
+    <h1>
+        @(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Model.UserDetails.Id) ? "" : Model.UserDetails.P.FirstName + " " + Model.UserDetails.P.LastName + "'s") profile
+    </h1>
+
+</section>
+
+<!-- Main content -->
+<section class="content">
+    @if (ViewData.ModelState["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewData.ModelState["Error"].Errors.First().ErrorMessage;
+        </div>
+    }
+    @if (ViewBag.Success != null && !string.IsNullOrWhiteSpace(ViewBag.Success))
+    {
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @ViewBag.Success
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Model.UserDetails.P.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail250px))" alt="User profile picture">
+                    <h3 class="profile-username text-center">@(Model.UserDetails.P.FirstName + " " + Model.UserDetails.P.LastName)</h3>
+                    @*<p class="text-muted text-center">Software Engineer</p>*@
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Followers</b> <a class="pull-right">1,322</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Pets</b> <a class="pull-right">@Model.UserDetails.Pets.Count()</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Connections</b> <a class="pull-right">@Model.ConnectionCount</a>
+                        </li>
+                    </ul>
+
+                    <a href="@Url.Action("Connect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Connect</b></a>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            <!-- About Me Box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">About Me</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <strong>  <i class="fa fa-file-text-o margin-r-5"></i>About Me</strong>
+                    <p class="text-muted">
+                        @Model.UserDetails.P.AboutMe
+                    </p>
+                    <hr />
+                    <strong><i class="fa fa-book margin-r-5"></i>  Education</strong>
+                    <p class="text-muted">
+                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                    <p class="text-muted">
+                        @(Model.UserDetails.P.Addr != null ? (string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.AddressLine1 + Model.UserDetails.P.Addr.AddressLine2 + Model.UserDetails.P.Addr.City + Model.UserDetails.P.Addr.State + Model.UserDetails.P.Addr.Country) ? "Not specified" :
+               ((string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.AddressLine1) ? "" : Model.UserDetails.P.Addr.AddressLine1 + ", ") +
+                (string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.AddressLine2) ? "" : Model.UserDetails.P.Addr.AddressLine2 + ", ") +
+                (string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.City) ? "" : Model.UserDetails.P.Addr.City + ", ") +
+                (string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.State) ? "" : Model.UserDetails.P.Addr.State + ", ") +
+                (string.IsNullOrWhiteSpace(Model.UserDetails.P.Addr.Country) ? "" : Model.UserDetails.P.Addr.Country))) : "Not specified")
+                    </p>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 text-align-center">
+                            <strong><i class="fa fa-mobile margin-r-5"></i> Primary Phone </strong>
+                            <p class=" text-muted">@(string.IsNullOrWhiteSpace(Model.UserDetails.P.PrimaryPhone) ? "NA" : Model.UserDetails.P.PrimaryPhone)</p>
+                        </div>
+                        <div class="col-md-6 text-align-center">
+                            <strong><i class="fa fa-mobile margin-r-5"></i> Secondary Phone </strong>
+                            <p class=" text-muted">
+                                @(string.IsNullOrWhiteSpace(Model.UserDetails.P.SecondaryPhone) ? "NA" : Model.UserDetails.P.SecondaryPhone)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div class="col-md-6 text-align-center">
+                            <strong><i class="fa fa-envelope margin-r-5"></i> Email</strong>
+                            <p class=" text-muted">
+                                @Model.UserDetails.P.Email
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-align-center">
+                            <strong><i class="fa fa-envelope margin-r-5"></i> Alternate Email</strong>
+                            <p class=" text-muted">
+                                @(string.IsNullOrWhiteSpace(Model.UserDetails.P.AlternateEmail) ? "NA" : Model.UserDetails.P.AlternateEmail)
+                            </p>
+                        </div>
+                    </div>
+
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+                    <li><a href="#pets" data-toggle="tab">Pets</a></li>
+                    @*<li><a href="#settings" data-toggle="tab">Settings</a></li>*@
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="activity">
+                        <!--show all Post for this user-->
+                        <div id="feedContainer">
+                            @Html.Partial("_FeedPartial", new List<Pet2Share_API.Domain.Post>())
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <p id="noPostElement" class="text-muted center">No Posts to show</p>
+                                    <p id="loading"><img width="16px" src="@Url.Content("~/Content/loading.gif")"></p>
+
+                                    <p id="noMorePostsElement" style="display:none" class="text-muted center">No more posts to show</p>
+                                    <p id="btnLoadMore" style="display:none"><button id="btnload" class="btn-primary btn-sm" onclick="loadFeed(); return false;">See More</button>     </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div><!-- /.tab-pane -->
+                    <div class="tab-pane" id="pets">
+                        <!-- The pets list goes here-->
+                        <div class="row">
+                            @if (Model.UserDetails.Pets.Count() <= 0)
+                            {
+                                <div class="col-md-12 text-center">
+                                    <p class="text-muted">No pets added yet!!</p>
+                                </div>
+                            }
+                            else
+                            {
+                                foreach (var item in Model.UserDetails.Pets)
+                                {
+
+                                    <div class="col-md-6">
+                                        <!-- Widget: user widget style 1 -->
+                                        <div class="box box-widget widget-user">
+                                            <!-- Add the bg color to the header using any of the bg-* classes -->
+
+                                            <div class="widget-user-header-small  bg-black" style="background: url('@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.CoverPictureURL))') center center;background-size:cover; cursor:pointer;">
+                                                <h3 class="widget-user-username">@item.Name</h3>
+                                                <h5 class="widget-user-desc">@item.FamilyName</h5>
+                                            </div>
+                                            <div class="widget-user-image-small" style="cursor: pointer;">
+                                                <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL ?? "", false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="User Avatar">
+                                            </div>
+
+                                            <div class="box-footer">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="text-muted text-center">
+                                                            @Pet2Share_Web.BL.FormatText.Instance.FormatNotes(item.About ?? " ", 200)  &nbsp;
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+                                                            <a class="link-black" href="~/Pets/Details/@item.Id">
+                                                                <i class="fa fa-paw"></i> Profile
+
+                                                            </a>
+                                                        </div><!-- /.description-block -->
+                                                    </div><!-- /.col -->
+                                                    <div class="col-sm-4 border-right">
+                                                        <div class="description-block">
+                                                            <a class="link-black" href="~/Pets/Details/@item.Id">
+                                                                <i class="fa fa-dashboard"></i> Feeds
+
+                                                            </a>
+                                                        </div><!-- /.description-block -->
+                                                    </div><!-- /.col -->
+                                                    <div class="col-sm-4">
+                                                        <div class="description-block">
+                                                            <a class="link-black" href="~/Pets/Details/@item.Id">
+                                                                <i class="fa fa-comments"></i> Messages
+
+                                                            </a>
+                                                        </div><!-- /.description-block -->
+                                                    </div><!-- /.col -->
+                                                </div><!-- /.row -->
+                                            </div>
+                                        </div><!-- /.widget-user -->
+                                    </div>
+
+                                }
+                            }
+                        </div>
+                    </div><!-- /.tab-pane -->
+
+
+                </div><!-- /.tab-content -->
+            </div><!-- /.nav-tabs-custom -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+
+</section><!-- /.content -->
+<script type="text/javascript">
+
+    var page = 1;
+    var _inCallback = false;
+
+    function loadFeed() {
+        try {
+
+
+            if (page > 0 && !_inCallback) {
+                _inCallback = true;
+
+                $('p#loading').show();
+                $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page, function (data) {
+                     
+                    if (data != '') {
+                        $("#feedContainer").append(data);
+                        $('p#noPostElement').hide();
+                        $('p#btnLoadMore').hide();
+                        $('p#noMorePostsElement').hide();
+                        page++;
+                    }
+                    else {
+                        //show load more button
+                        $('p#btnLoadMore').show();
+                        $('p#noMorePostsElement').show();
+                        if ($('p#noPostElement').is(":visible")) {
+                            $('p#noPostElement').hide();
+                        }
+                    }
+
+                    _inCallback = false;
+                    $('p#loading').hide();
+                    if (data.trim() != '') {
+                        CheckIfMoreFeedsNeeded();
+                    }
+
+                }).fail(function () {
+                    $('p#loading').hide();
+                    _inCallback = false;
+                    setTimeout(function () {
+                        loadFeed();
+                    }, 5000);
+                });
+            }
+        }
+        catch (ex) {
+            $('p#loading').hide();
+            _inCallback = false;
+            setTimeout(function () {
+                loadFeed();
+            }, 5000);
+        }
+    }
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            loadFeed();
+        }
+    });
+
+    $(function () {
+       
+        $('.sidebar-menu li').removeClass('active');
+        $('.menuNewsfeed').addClass('active');
+        loadFeed();
+
+    });
+
+    function CheckIfMoreFeedsNeeded() {
+        if ($("body").height() <= $(window).height()) {
+            loadFeed()
+        }
+
+    }
+
+
+    function LoadComments(PostId) {
+        var PostIdtoLoad = PostId;
+        $.ajax({
+            type: "POST",
+            url: "/post/GetComments",
+            data: { "PostId": PostId },
+            success: function (data) {
+                
+                if (data.CommentData != null || data.CommentData != undefined) {
+                    $('#divComment_' + PostId).empty().append(data.CommentData);
+                    $('#divComment_' + PostId).show();
+
+                }
+                else if (data.Error == null || data.Error == undefined) {
+
+                }
+                // $("#btnLoadComment_" + PostId).hide();
+            },
+            fail: function () {
+
+            }, done: function (msg) {
+                alert("Data Saved: " + msg);
+            }
+
+        });
+    }
+
+
+</script>

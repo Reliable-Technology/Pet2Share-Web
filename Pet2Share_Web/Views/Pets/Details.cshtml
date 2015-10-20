@@ -7,9 +7,9 @@
                 header) -->
 <section class="content-header">
     <h1>
-       Pet Profile
+        @Model.SUser.Name's  pet @Model.Name
     </h1>
-     
+
 </section>
 
 <!-- Main content -->
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-sm-4 border-right">
                             <div class="description-block">
-                                <a class="link-black" href="~/Pet/Feed">
+                                <a class="link-black" href="@Url.Action("Feed", "Pets", new { @id = Model.PetId })">
                                     <i class="fa fa-paw"></i> Feed
                                 </a>
 
@@ -58,7 +58,7 @@
                         </div><!-- /.col -->
                         <div class="col-sm-4 border-right">
                             <div class="description-block">
-                                <a class="link-black" href="~/Connections">
+                                <a class="link-black" href="@Url.Action("Index", "Connections", new { @id = Model.PetId })">
                                     <i class="fa fa-user"></i> Connections
                                 </a>
                             </div><!-- /.description-block -->
@@ -81,7 +81,10 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">About Me</h3>
-                    <a href="/Pets/Edit/@Model.PetId" class="text-muted pull-right"><i class="fa fa-edit"></i></a>
+                    @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Model.SUser.Id))
+                    {
+                        <a href="/Pets/Edit/@Model.PetId" class="text-muted pull-right"><i class="fa fa-edit"></i></a>
+                    }
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <strong>  <i class="fa fa-file-text-o margin-r-5"></i>About Me</strong>

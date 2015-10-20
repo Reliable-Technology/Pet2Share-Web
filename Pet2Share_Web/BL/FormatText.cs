@@ -21,6 +21,8 @@ namespace Pet2Share_Web.BL
 
         public const string CommonThumbnail = "?width=100";
         public const string Thumbnail400px = "?width=400";
+        public const string Thumbnail250px = "?width=250";
+        public const string Thumbnail128px = "?width=128";
 
         private static void Init()
         {
@@ -402,13 +404,13 @@ namespace Pet2Share_Web.BL
 
         public string GetValidImage(object virtualFilePath, bool UseLabeled_NoUser_AsFallbackImage = false, string thumbOpt = "")
         {
-            string fallbackImage = "/Images/NoPet.jpg";
+            string fallbackImage = "/Images/NoPet.jpg" + thumbOpt;
             try
             {
 
                 if (UseLabeled_NoUser_AsFallbackImage)
                 {
-                    fallbackImage = "/Images/NoPet.jpg";
+                    fallbackImage = "/Images/NoPet.jpg" + thumbOpt;
                 }
 
                 if (virtualFilePath == null)

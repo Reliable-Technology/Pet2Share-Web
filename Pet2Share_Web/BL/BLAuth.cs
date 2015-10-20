@@ -52,7 +52,10 @@ namespace Pet2Share_Web.BL
 
         }
 
-
+        public bool IsYourProfile(int ViewerId)
+        {
+            return GetUserID() == ViewerId ? true : false;
+        }
 
         public string GetUserName()
         {

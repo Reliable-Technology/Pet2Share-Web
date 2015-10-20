@@ -59,5 +59,5 @@ namespace Pet2Share_Web.Models
         public LoginModel Login { get; set; }
     }
 
-
+    
 }
