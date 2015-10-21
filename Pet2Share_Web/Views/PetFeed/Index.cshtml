@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_PetsLayout.cshtml";
 }
 @*<section class="content-header">
          <h1>
@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            @Html.Partial("~/Views/Post/Index.cshtml", new Pet2Share_Web.Models.PostModal(Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), true))
+            @Html.Partial("~/Views/Post/Index.cshtml", new Pet2Share_Web.Models.PostModal(Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId(), false))
 
 
             <div id="feedContainer">
@@ -59,7 +59,7 @@
                 _inCallback = true;
 
                 $('p#loading').show();
-                $.get("/Feed/Index/" + page, function (data) {
+                $.get("/Feed/UserFeed?UserId=" + @Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId() + "&PageNo=" + page + "&isUser=false", function (data) {
 
                     if (data != '') {
                         $("#feedContainer").append(data);

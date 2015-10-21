@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Pet2Share_Web.Controllers
 {
-    public class FeedController : Controller
+    public class PetFeedController : Controller
     {
         //
         // GET: /Feed/
@@ -21,7 +20,7 @@ namespace Pet2Share_Web.Controllers
             if (Request.IsAjaxRequest())
             {
                 //Thread.Sleep(3000);
-                return PartialView("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = PostManager.GetPostsByUser(BL.BLAuth.Instance.GetUserID(), 3, CurrentPage), IsUser = true });
+                return PartialView("_FeedPartial", PostManager.GetPostsByPet(BL.BLPetCookie.Instance.GetCurrentPetId(), 3, CurrentPage));
             }
             return View();
             //return View("Index", PostManager.GetPostsByUser(BL.BLAuth.Instance.GetUserID(), 10, CurrentPage));
@@ -29,7 +28,7 @@ namespace Pet2Share_Web.Controllers
         }
 
         [Authorize]
-        public ActionResult UserFeed(int UserId, int PageNo, bool isUser)
+        public ActionResult UserFeed(int UserId, int PageNo)
         {
 
             //var CurrentPage = PageNo ?? 1;
@@ -37,12 +36,11 @@ namespace Pet2Share_Web.Controllers
             if (Request.IsAjaxRequest())
             {
                 //Thread.Sleep(3000);
-                return PartialView("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = isUser ? PostManager.GetPostsByUser(BL.BLAuth.Instance.GetUserID(), 3, PageNo) : PostManager.GetPostsByPet(BL.BLPetCookie.Instance.GetCurrentPetId(), 3, PageNo), IsUser = isUser });
+                return PartialView("_FeedPartial", PostManager.GetPostsByUser(UserId, 3, PageNo));
             }
             return View();
             //return View("Index", PostManager.GetPostsByUser(BL.BLAuth.Instance.GetUserID(), 10, CurrentPage));
 
         }
-
     }
 }

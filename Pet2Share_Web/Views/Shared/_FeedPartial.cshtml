@@ -1,6 +1,6 @@
-﻿@model List<Pet2Share_API.Domain.Post>
+﻿@model Pet2Share_Web.Models.FeedModel
 
-@foreach (var item in Model)
+@foreach (var item in Model.PostList)
 {
 
     <div class="box box-widget">
@@ -26,13 +26,16 @@
             <!-- Social sharing buttons -->
             <button class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
             <button class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-            <span class="pull-right text-muted"><span id="spnLikeCount_@item.Id">@item.PostLikeCount</span> likes - <span id="spnCommentCount_@item.Id">@item.Comments.Count</span> comments</span>
+            <span class="pull-right text-muted"><span id="spnLikeCount_@item.Id">@item.PostLikeCount</span> likes - <span id="spnCommentCount_@item.Id">@item.PostCommentCount</span> comments</span>
         </div><!-- /.box-body -->
         <div class="box-footer box-comments" id="divComment_@item.Id" style="@(item.Comments.Count>0 ? "display:block" : "display:none")">
 
             @Html.Partial("~/Views/Post/_CommentItem.cshtml", item.Comments)
 
         </div>
-        @Html.Partial("~/Views/Post/_AddComment.cshtml", new Pet2Share_Web.Models.PostCommentModal(item.Id, Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), true))
+        @if (Model.IsUser)
+        {
+            @Html.Partial("~/Views/Post/_AddComment.cshtml", new Pet2Share_Web.Models.PostCommentModal(item.Id, Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), Model.IsUser))
+        }
     </div>
 }

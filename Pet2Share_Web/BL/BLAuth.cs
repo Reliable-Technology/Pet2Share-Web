@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Web.Mvc;
+using Pet2Share_API.Service;
 
 namespace Pet2Share_Web.BL
 {
@@ -30,6 +32,9 @@ namespace Pet2Share_Web.BL
                 return instance;
             }
         }
+
+
+
 
         public int GetUserID()
         {
@@ -105,7 +110,7 @@ namespace Pet2Share_Web.BL
             }
             return "/Images/NoPet.png";
         }
-       
+
 
         public string HashPassword(string pasword)
         {
@@ -139,4 +144,173 @@ namespace Pet2Share_Web.BL
 
 
     }
+
+    public sealed class BLPetViewBag : Controller
+    {
+        private static readonly BLPetViewBag instance = new BLPetViewBag();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static BLPetViewBag()
+        {
+        }
+
+        private BLPetViewBag()
+        {
+        }
+
+        public static BLPetViewBag Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+
+        public List<Pet2Share_API.Domain.Pet> GetPets()
+        {
+            List<Pet2Share_API.Domain.Pet> PetsList = new List<Pet2Share_API.Domain.Pet>();
+            if (ViewBag.CurrentPets != null)
+            {
+                PetsList = ViewBag.CurrentPets as List<Pet2Share_API.Domain.Pet>;
+            }
+            else
+            {
+                UserProfileManager UserPetsObj = new UserProfileManager(BLAuth.Instance.GetUserID());
+                PetsList = UserPetsObj.user.Pets.ToList();
+
+            }
+            return PetsList;
+        }
+
+        //public int CurrentPet
+        //{
+        //    get
+        //    {
+
+        //    }
+        //    set
+        //    {
+
+
+        //    }
+        //}
+
+    }
+
+    public sealed class BLPetCookie
+    {
+        private static readonly BLPetCookie instance = new BLPetCookie();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static BLPetCookie()
+        {
+        }
+
+        private BLPetCookie()
+        {
+        }
+
+        public static BLPetCookie Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        public string GetCurrentPetName()
+        {
+            var CurrentPet = BLPetViewBag.Instance.GetPets().Where(p => p.Id == GetCurrentPetId()).FirstOrDefault();
+            if (CurrentPet != null)
+            {
+                return CurrentPet.Name;
+            }
+            return "Virtua";
+        }
+        
+        public string GetCurrentPetProfilePic()
+        {
+            var CurrentPet = BLPetViewBag.Instance.GetPets().Where(p => p.Id == GetCurrentPetId()).FirstOrDefault();
+            if (CurrentPet != null)
+            {
+                return CurrentPet.ProfilePictureURL;
+            }
+            return "";
+        }
+
+        public int GetCurrentPetId()
+        {
+            int CurrentPetId = 0;
+            try
+            {
+                string CPetid;
+                if (HttpContext.Current.Request.Cookies["UserSettings_" + BLAuth.Instance.GetUserID()] != null)
+                {
+
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["UserSettings_" + BLAuth.Instance.GetUserID()];
+                    CPetid = Convert.ToString(myCookie["CurrentPet"]);
+                }
+                else
+                {
+                    HttpCookie myCookie = new HttpCookie("UserSettings_" + BLAuth.Instance.GetUserID());
+                    myCookie["CurrentPet"] = CPetid = BLPetViewBag.Instance.GetPets().FirstOrDefault().Id.ToString();
+                    myCookie.Expires = DateTime.Now.AddDays(30d);
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+                int.TryParse(CPetid, out CurrentPetId);
+            }
+            catch
+            {
+
+            }
+            return CurrentPetId;
+        }
+
+        public void SetCurrentPet(int Id)
+        {
+
+            try
+            {
+
+                if (HttpContext.Current.Response.Cookies["UserSettings_" + BLAuth.Instance.GetUserID()] != null)
+                {
+
+                    HttpContext.Current.Response.Cookies["UserSettings_" + BLAuth.Instance.GetUserID()]["CurrentPet"] = Id.ToString();
+                    //myCookie["CurrentPet"] = Id.ToString();
+                }
+                else
+                {
+                    HttpCookie myCookie = new HttpCookie("UserSettings_" + BLAuth.Instance.GetUserID());
+                    myCookie["CurrentPet"] = Id.ToString();// BLPetViewBag.Instance.GetPets().FirstOrDefault().Id.ToString();
+                    myCookie.Expires = DateTime.Now.AddDays(30d);
+                    HttpContext.Current.Response.Cookies.Add(myCookie);
+                }
+
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        //public int CurrentPet
+        //{
+        //    get
+        //    {
+
+        //    }
+        //    set
+        //    {
+
+
+        //    }
+        //}
+
+    }
+
+
 }

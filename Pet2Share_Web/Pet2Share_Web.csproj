@@ -143,6 +143,8 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\PetConnectionController.cs" />
+    <Compile Include="Controllers\PetFeedController.cs" />
     <Compile Include="Controllers\PetsController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -152,6 +154,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ConnectionModel.cs" />
+    <Compile Include="Models\FeedModel.cs" />
     <Compile Include="Models\Pet2ShareMetaData.cs" />
     <Compile Include="Models\PetModel.cs" />
     <Compile Include="Models\PostModal.cs" />
@@ -1119,6 +1122,10 @@
     <Content Include="Views\Connection\SearchUsers.cshtml" />
     <Content Include="Views\Index\Login.cshtml" />
     <Content Include="Views\Index\Register.cshtml" />
+    <Content Include="Views\Shared\_PetsLayout.cshtml" />
+    <Content Include="Views\Shared\_HeaderPetList.cshtml" />
+    <Content Include="Views\PetFeed\Index.cshtml" />
+    <Content Include="Views\Shared\MenuPet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

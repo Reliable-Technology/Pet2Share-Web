@@ -1,23 +1,15 @@
 ﻿<ul class="sidebar-menu">
     <li class="header">Quick Links</li>
     <li class="treeview menuNewsfeed">
-        <a href="~/Feed">
+        <a href="~/PetFeed">
             <i class="fa fa-dashboard"></i> <span>News Feed</span>
         </a>
 
     </li>
     <li class="treeview menuProfile">
-        <a href="~/Profile">
+        <a href="@Url.Action("Details", "Pet", new {@id=Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId() })">
             <i class="fa fa-user"></i>
-            <span>Profile</span>
-
-        </a>
-
-    </li>
-    <li class="treeview menuPets">
-        <a href="~/Pets">
-            <i class="fa fa-paw"></i>
-            <span>Pets</span>
+            <span>My Profile</span>
 
         </a>
 
@@ -25,7 +17,7 @@
     <li class="treeview menuConnection">
         <a href="~/Connection">
             <i class="fa fa-users"></i>
-            <span>Connections</span>
+            <span>My Connections</span>
 
         </a>
 
@@ -38,5 +30,5 @@
         </a>
 
     </li>
-   
+
 </ul>

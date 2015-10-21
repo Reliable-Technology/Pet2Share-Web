@@ -1,0 +1,46 @@
+﻿@if (Pet2Share_Web.BL.BLPetViewBag.Instance.GetPets().Count > 0)
+{
+    List<Pet2Share_API.Domain.Pet> PetsList = Pet2Share_Web.BL.BLPetViewBag.Instance.GetPets();
+    var CurrentPet = PetsList.Where(p => p.Id == Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId()).FirstOrDefault();
+    <li class="dropdown messages-menu user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(CurrentPet.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.CommonThumbnail )" class="user-image" alt="User Image">
+            <span class="hidden-xs">@CurrentPet.Name</span>
+
+        </a>
+        <ul class="dropdown-menu">
+
+            <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                    @foreach (var Pet in PetsList)
+                    {
+                        <li>
+                            <!-- start message -->
+                            <a href="@Url.Action("ChangeCurrentPet", "Index", new { @id = Pet.Id })">
+                            <div class="pull-left">
+                            <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail128px)" class="img-circle" alt="User Image">
+                            </div>
+                            <h4>
+                            @Pet.Name
+
+                            @if (Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId() == Pet.Id)
+                            {
+                                <small style="color: green">
+                                    <i class="fa fa-fw fa-check-square"></i>Current
+                                </small>
+                            }
+
+                            </h4>
+                            @*<p>Why not buy a new awesome theme?</p>*@
+                            </a>
+                        </li><!-- end message -->
+                    }
+                </ul>
+            </li>
+
+        </ul>
+    </li>
+
+
+}

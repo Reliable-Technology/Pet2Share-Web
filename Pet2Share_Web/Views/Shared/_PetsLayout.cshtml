@@ -256,15 +256,14 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         @if (User.Identity.IsAuthenticated)
                         {
-    
                             @Html.Partial("_HeaderPetList")
-
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="user-image" alt="User Image">
                                     <span class="hidden-xs">&nbsp;</span>
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <!-- User image -->
                                     <li class="user-header">
                                         <img style="cursor:pointer" title="Click to upload new profile pic" data-toggle="modal" data-target=".bs-modal-lg" onclick="LoadUploadModal(@Pet2Share_Web.BL.BLAuth.Instance.GetUserID(),1,0)" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
                                         <p>
@@ -272,8 +271,6 @@
 
                                         </p>
                                     </li>
-
-
                                     <!-- Menu Body -->
                                     @*<li class="user-body">
                                             <div class="col-xs-4 text-center">
@@ -300,8 +297,8 @@
                             </li>
                             <!-- Control Sidebar Toggle Button -->
                             @*<li>
-                                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                                </li>*@
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>*@
                         }
                     </ul>
                 </div>
@@ -314,12 +311,12 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
+                        <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetProfilePic(), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>
                             <a href="@Url.Action("Index","Profile")">
-                                @Pet2Share_Web.BL.BLAuth.Instance.GetFullName()
+                                @Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetName()
 
                             </a>
                         </p>
@@ -337,7 +334,7 @@
                     </form>*@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                @Html.Partial("Menu")
+                @Html.Partial("MenuPet")
             </section>
             <!-- /.sidebar -->
 

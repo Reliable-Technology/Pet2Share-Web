@@ -31,7 +31,14 @@ namespace Pet2Share_Web.Controllers
                 if (result.Id > 0)
                 {
                     ViewBag.Success = "Post added successfully";
-                    return RedirectToAction("Index", "Feed");
+                    if (PostObj.IsUser)
+                    {
+                        return RedirectToAction("Index", "Feed");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "PetFeed");
+                    }
                 }
                 else
                 {

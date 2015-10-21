@@ -10,6 +10,10 @@ using Pet2Share_Web.Models;
 
 namespace Pet2Share_Web.Controllers
 {
+
+
+
+
     public class IndexController : Controller
     {
         //
@@ -46,6 +50,8 @@ namespace Pet2Share_Web.Controllers
             if (obj != null && obj.Id > 0)
             {
                 FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.ProfilePictureURL, true);
+
+                ViewBag.CurrentPets = obj.Pets.ToList();
 
                 // return Json(new { result = "Redirect", url = Url.Action("Index", "Feed") });
                 return RedirectToAction("Index", "Feed");
@@ -85,9 +91,9 @@ namespace Pet2Share_Web.Controllers
                 else
                 {
                     ModelState.AddModelError("Error", "Could not register your profile, Please try again.");
-                   
+
                 }
-                
+
             }
             catch (MembershipCreateUserException e)
             {
@@ -112,6 +118,13 @@ namespace Pet2Share_Web.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
+
+        public ActionResult ChangeCurrentPet(int id)
+        {
+            BL.BLPetCookie.Instance.SetCurrentPet(id);
+            return RedirectToAction("Index", "PetFeed");
+        }
+
 
 
         #region Helpers
