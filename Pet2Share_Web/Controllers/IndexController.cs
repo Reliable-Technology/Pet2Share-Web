@@ -28,6 +28,13 @@ namespace Pet2Share_Web.Controllers
             return View(IndexM);
         }
 
+
+        public ActionResult Login()
+        {
+            return View(new LoginModel());
+        }
+
+
         //
         // POST: Login
         [HttpPost]
@@ -40,16 +47,22 @@ namespace Pet2Share_Web.Controllers
             {
                 FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.ProfilePictureURL, true);
 
-                return Json(new { result = "Redirect", url = Url.Action("Index", "Feed") });
+                // return Json(new { result = "Redirect", url = Url.Action("Index", "Feed") });
+                return RedirectToAction("Index", "Feed");
                 //return RedirectToLocal("");
             }
             else
             {
                 ModelState.AddModelError("Error", "Username or password not correct.");
                 //return View("Index", model);
-                return PartialView("_Login", model);
+                return View(model);
             }
             //return View();
+        }
+
+        public ActionResult Register()
+        {
+            return View(new RegisterModel());
         }
 
         //
@@ -65,23 +78,23 @@ namespace Pet2Share_Web.Controllers
                 if (obj != null && obj.Id > 0)
                 {
                     FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
-                    return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
+                    // return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
+                    return RedirectToAction("Index", "Feed");
                     //return RedirectToLocal("");
                 }
                 else
                 {
                     ModelState.AddModelError("Error", "Could not register your profile, Please try again.");
-                    return PartialView("_Register", model);
+                   
                 }
-                //
-                ViewData["Message"] = "You have been successfully registered and logged in.";
+                
             }
             catch (MembershipCreateUserException e)
             {
                 ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
             }
 
-            return RedirectToLocal("");
+            return View(model);
         }
 
 

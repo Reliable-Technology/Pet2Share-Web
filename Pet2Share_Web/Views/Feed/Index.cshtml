@@ -60,7 +60,7 @@
 
                 $('p#loading').show();
                 $.get("/Feed/Index/" + page, function (data) {
-                    
+
                     if (data != '') {
                         $("#feedContainer").append(data);
                         $('p#noPostElement').hide();
@@ -106,7 +106,7 @@
     });
 
     $(function () {
-        
+
         $('.sidebar-menu li').removeClass('active');
         $('.menuNewsfeed').addClass('active');
         loadFeed();
@@ -128,16 +128,16 @@
             url: "/post/GetComments",
             data: { "PostId": PostId },
             success: function (data) {
-                
                 if (data.CommentData != null || data.CommentData != undefined) {
                     $('#divComment_' + PostId).empty().append(data.CommentData);
                     $('#divComment_' + PostId).show();
-
+                    
+                    $("#spnCommentCount_" + PostId).text($(data.CommentData).find("div").length);
                 }
                 else if (data.Error == null || data.Error == undefined) {
 
                 }
-               // $("#btnLoadComment_" + PostId).hide();
+                // $("#btnLoadComment_" + PostId).hide();
             },
             fail: function () {
 
@@ -146,6 +146,15 @@
             }
 
         });
+    }
+
+    function IncreaseCommentCount(postId, commentCount) {
+         
+        var count = parseInt($("#spnCommentCount_" + postId).text());
+
+        ++count;
+
+        $("#spnCommentCount_" + postId).text(count);
     }
 
 

@@ -18,7 +18,16 @@ namespace Pet2Share_Web
               url: "Search",
               defaults: new { controller = "Connection", action = "SearchUsers" }
           );
-
+            routes.MapRoute(
+             name: "Login",
+             url: "Login",
+             defaults: new { controller = "Index", action = "Login" }
+         );
+            routes.MapRoute(
+           name: "Register",
+           url: "Register",
+           defaults: new { controller = "Index", action = "Register" }
+       );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

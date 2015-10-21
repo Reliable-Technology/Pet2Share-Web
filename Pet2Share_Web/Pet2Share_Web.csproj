@@ -1117,6 +1117,8 @@
     <Content Include="Views\Connection\Index.cshtml" />
     <Content Include="Views\Connection\Details.cshtml" />
     <Content Include="Views\Connection\SearchUsers.cshtml" />
+    <Content Include="Views\Index\Login.cshtml" />
+    <Content Include="Views\Index\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

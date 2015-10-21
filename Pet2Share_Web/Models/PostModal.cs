@@ -18,6 +18,7 @@ namespace Pet2Share_Web.Models
         public int ProfileId { get; set; }
         public bool IsUser { get; set; }
 
+        [Required(ErrorMessage = " ")]
         [StringLength(300, MinimumLength = 0, ErrorMessage = "Maximum {1} characters are allowed")]
         public string PostMessage { get; set; }
 

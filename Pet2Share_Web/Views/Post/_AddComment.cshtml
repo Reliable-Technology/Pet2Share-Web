@@ -29,7 +29,7 @@
 
 
         $('#@("txtComment_"+Model.PostId)').pressEnter(function () {
-           
+
             if($(this).val().length>300)
             {
                 $(this).val().substring(0, 300);
@@ -41,10 +41,12 @@
                 url: "/post/AddComment",
                 data: { "PostId":@Model.PostId, "CommentDesc": $('#@("txtComment_"+Model.PostId)').val() },
                 success: function (data) {
-                    
+
                     if((data.Error ==null || data.Error==undefined )&& data.CommentData!=null || data.CommentData!=undefined )
                     {
+
                         $('#@("divComment_"+Model.PostId)').append(data.CommentData);
+                        IncreaseCommentCount(@Model.PostId, $(data.CommentData).find("div").length);
                         $('#@("divComment_"+Model.PostId)').show();
                         $('#@("txtComment_"+Model.PostId)').val("");
                     }

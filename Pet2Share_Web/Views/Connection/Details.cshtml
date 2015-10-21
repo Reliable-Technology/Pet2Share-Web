@@ -49,8 +49,25 @@
                             <b>Connections</b> <a class="pull-right">@Model.ConnectionCount</a>
                         </li>
                     </ul>
+                    @if (Model.UserConnStatus == Pet2Share_API.Service.ConnectionType.Connected)
+                    {
+                        <a href="@Url.Action("DeleteConnect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Delete Connection</b></a>
+                    }
+                    else if (Model.UserConnStatus == Pet2Share_API.Service.ConnectionType.ConnectionPendingFromFriend)
+                    {
+                        <a href="@Url.Action("DeleteConnect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Cancel Request</b></a>
+                    }
+                    else if (Model.UserConnStatus == Pet2Share_API.Service.ConnectionType.ConnectionPendingFromMe)
+                    {
+                        <a href="@Url.Action("ApproveConnect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Approve Request</b></a>
+                        <a href="@Url.Action("DeleteConnect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Cancel Request</b></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Connect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Connect</b></a>
+                    }
 
-                    <a href="@Url.Action("Connect", "Connection", new { @id = Model.UserDetails.Id })" class="btn btn-primary btn-block"><b>Connect</b></a>
+
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
             <!-- About Me Box -->
@@ -233,7 +250,7 @@
 
                 $('p#loading').show();
                 $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page, function (data) {
-                     
+
                     if (data != '') {
                         $("#feedContainer").append(data);
                         $('p#noPostElement').hide();
@@ -281,7 +298,7 @@
     });
 
     $(function () {
-       
+
         $('.sidebar-menu li').removeClass('active');
         $('.menuNewsfeed').addClass('active');
         loadFeed();
@@ -303,11 +320,11 @@
             url: "/post/GetComments",
             data: { "PostId": PostId },
             success: function (data) {
-                
+
                 if (data.CommentData != null || data.CommentData != undefined) {
                     $('#divComment_' + PostId).empty().append(data.CommentData);
                     $('#divComment_' + PostId).show();
-
+                    $("#spnCommentCount_" + PostId).text($(data.CommentData).find("div").length);
                 }
                 else if (data.Error == null || data.Error == undefined) {
 
@@ -321,6 +338,14 @@
             }
 
         });
+    }
+    function IncreaseCommentCount(postId, commentCount) {
+
+        var count = parseInt($("#spnCommentCount_" + postId).text());
+
+        ++count;
+
+        $("#spnCommentCount_" + postId).text(count);
     }
 
 

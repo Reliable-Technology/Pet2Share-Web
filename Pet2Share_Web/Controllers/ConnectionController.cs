@@ -27,12 +27,17 @@ namespace Pet2Share_Web.Controllers
         {
             try
             {
-                UserProfileManager result;
-                result = new UserProfileManager(id);
-                if (result.user.Id == (id))
+                Pet2Share_API.Domain.User result;
+
+                ConnectionType conType;
+
+                result = UserProfileManager.GetOtherUserProfile(BL.BLAuth.Instance.GetUserID(), id, out conType);
+
+
+                if (result.Id == (id))
                 {
                     int ConnCount = ConnectionManager.GetMyConnectionCount(new Pet2Share_API.Domain.User() { Id = id });
-                    return View(new ConnectionViewModel() { ConnectionCount = ConnCount, UserDetails = result.user });
+                    return View(new ConnectionViewModel() { ConnectionCount = ConnCount, UserDetails = result, UserConnStatus = conType });
                 }
 
                 return RedirectToAction("NotFound", "Error");
@@ -69,6 +74,28 @@ namespace Pet2Share_Web.Controllers
         public ActionResult Connect(int id)
         {
             var ConnectResult = ConnectionManager.AskToConnect(new Pet2Share_API.Domain.User() { Id = BL.BLAuth.Instance.GetUserID() }, new Pet2Share_API.Domain.User() { Id = id });
+            if (ConnectResult.IsSuccessful)
+            {
+                return RedirectToAction("Details", new { @id = id });
+            }
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult DeleteConnect(int id)
+        {
+            var ConnectResult = ConnectionManager.DeleteConnection(new Pet2Share_API.Domain.User() { Id = BL.BLAuth.Instance.GetUserID() }, new Pet2Share_API.Domain.User() { Id = id });
+            if (ConnectResult.IsSuccessful)
+            {
+                return RedirectToAction("Details", new { @id = id });
+            }
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult ApproveConnect(int id)
+        {
+            var ConnectResult = ConnectionManager.ApproveConnection(new Pet2Share_API.Domain.User() { Id = BL.BLAuth.Instance.GetUserID() }, new Pet2Share_API.Domain.User() { Id = id });
             if (ConnectResult.IsSuccessful)
             {
                 return RedirectToAction("Details", new { @id = id });

@@ -20,5 +20,6 @@ namespace Pet2Share_Web.Models
     {
         public Pet2Share_API.Domain.User UserDetails { get; set; }
         public int ConnectionCount { get; set; }
+        public Pet2Share_API.Service.ConnectionType UserConnStatus { get; set; }
     }
 }
