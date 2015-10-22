@@ -17,10 +17,10 @@
              </div> /.box-tools -->
         </div><!-- /.box-header -->
         <div class="box-body">
-        @if (!string.IsNullOrEmpty(item.PostURL))
-        {
-            <img class="img-responsive pad" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.PostURL, false, Pet2Share_Web.BL.FormatText.Quality70percent)" alt="Photo">
-        }
+            @if (!string.IsNullOrEmpty(item.PostURL))
+            {
+                <img class="img-responsive pad" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.PostURL, false, Pet2Share_Web.BL.FormatText.Quality70percent)" alt="Photo">
+            }
             <!-- post text -->
             <p>
                 @item.Description

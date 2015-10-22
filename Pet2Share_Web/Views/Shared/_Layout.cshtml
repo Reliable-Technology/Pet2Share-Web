@@ -617,6 +617,9 @@
         Dropzone.options.dropzoneForm = {
             maxFiles: 1,
             autoProcessQueue: false,
+            maxFilesize: 7,
+            addRemoveLinks: true,
+            acceptedFiles: "image/*",
             init: function () {
                 this.on("complete", function (data) {
                     debugger;
@@ -624,34 +627,33 @@
                     if (data.xhr != undefined || data.xhr != null) {
                         var res = JSON.parse(data.xhr.responseText);
                         if (res.Error == undefined || res.Error == null) {
-                            window.location.href=res.Message;
+                            window.location.href = res.Message;
                         }
                         else {
                             alert(res.Message);
                         }
                     } else {
-                       // alert("");
+                        // alert("");
                     }
 
                 });
-               
+
                 this.on("addedfile", function (file) {
-                   
+
                     // Capture the Dropzone instance as closure.
                     var _this = this;
                     // First change the button to actually tell Dropzone to process the queue.
                     this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
-                        if ($("#dropzoneForm").valid())
-                        {
+                        if ($("#dropzoneForm").valid()) {
                             // Make sure that the form isn't actually being sent.
                             e.preventDefault();
                             e.stopPropagation();
                             _this.processQueue();
                         }
-                        
+
                     });
 
- 
+
                 });
 
             }
