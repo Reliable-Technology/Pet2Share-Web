@@ -23,6 +23,7 @@ namespace Pet2Share_Web.BL
         public const string Thumbnail400px = "?width=400";
         public const string Thumbnail250px = "?width=250";
         public const string Thumbnail128px = "?width=128";
+        public const string Quality70percent = "?quality=70";
 
         private static void Init()
         {

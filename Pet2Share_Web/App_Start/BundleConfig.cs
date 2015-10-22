@@ -38,6 +38,13 @@ namespace Pet2Share_Web
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
+                     "~/Scripts/dropzone/dropzone.js"));
+
+            //bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
+            //         "~/Scripts/dropzone/css/basic.css",
+            //         "~/Scripts/dropzone/css/dropzone.css"));
         }
     }
 }

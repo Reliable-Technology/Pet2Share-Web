@@ -4,6 +4,7 @@ using Pet2Share_Web.BL;
 using Pet2Share_Web.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,34 +27,84 @@ namespace Pet2Share_Web.Controllers
         {
             try
             {
-                // TODO: Add update logic here
                 var result = PostManager.AddPost(1, PostObj.PostMessage, PostObj.ProfileId, !PostObj.IsUser);
                 if (result.Id > 0)
                 {
-                    ViewBag.Success = "Post added successfully";
-                    if (PostObj.IsUser)
+                    bool isSavedSuccessfully = true;
+                    string fName = "";
+                    try
                     {
-                        return RedirectToAction("Index", "Feed");
+                        foreach (string fileName in Request.Files)
+                        {
+                            HttpPostedFileBase file = Request.Files[fileName];
+                            //Save file content goes here
+                            fName = file.FileName;
+                            if (file != null && file.ContentLength > 0)
+                            {
+
+                                var PostPicUpload = PostManager.UploadPostPicture(BL.ImageHelper.Instance.StreamToByte(file.InputStream), fName, Pet2Share_API.Utility.ImageType.png, result.Id);
+
+                                isSavedSuccessfully = PostPicUpload.IsSuccessful;
+
+                                //var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\WallImages", Server.MapPath(@"\")));
+
+                                //string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "imagepath");
+
+                                //var fileName1 = Path.GetFileName(file.FileName);
+
+                                //bool isExists = System.IO.Directory.Exists(pathString);
+
+                                //if (!isExists)
+                                //    System.IO.Directory.CreateDirectory(pathString);
+
+                                //var path = string.Format("{0}\\{1}", pathString, file.FileName);
+                                //file.SaveAs(path);
+
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        isSavedSuccessfully = false;
+                    }
+
+
+                    if (isSavedSuccessfully)
+                    {
+                        ViewBag.Success = "Post added successfully";
+                        if (PostObj.IsUser)
+                        {
+                            //return RedirectToAction("Index", "Feed");
+                            return Json(new { Message = Url.Action("Index", "Feed") });
+                        }
+                        else
+                        {
+                            return Json(new { Message = Url.Action("Index", "PetFeed") });
+                        }
+
+                      //  return Json(new { Message = fName });
                     }
                     else
                     {
-                        return RedirectToAction("Index", "PetFeed");
+                        return Json(new { Message = "Error in saving file", Error="Error" });
                     }
+
                 }
                 else
                 {
-                    ModelState.AddModelError("Error", "");
 
-
+                    return Json(new { Message = "Error in saving file", Error = "Error" });
                 }
 
-                return View(PostObj);
 
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("Error", ex.Message);
-                return View(PostObj);
+               // ModelState.AddModelError("Error", ex.Message);
+                //return View(PostObj);
+                return Json(new { Message = ex.Message, Error = "Error" });
             }
 
         }

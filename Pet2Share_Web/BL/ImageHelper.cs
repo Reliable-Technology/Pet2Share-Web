@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -48,6 +49,21 @@ namespace Pet2Share_Web.BL
             return (Byte[])converter.ConvertTo(img, typeof(Byte[]));
         }
 
+        public Byte[] StreamToByte(Stream InputStream)
+        {
+            Byte[] data;
+            using (Stream inputStream = InputStream)
+            {
+                MemoryStream memoryStream = inputStream as MemoryStream;
+                if (memoryStream == null)
+                {
+                    memoryStream = new MemoryStream();
+                    inputStream.CopyTo(memoryStream);
+                }
+                data = memoryStream.ToArray();
+            }
 
+            return data;
+        }
     }
 }
