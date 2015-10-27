@@ -21,6 +21,7 @@
 
     <link href="~/Scripts/dropzone/basic.css" rel="stylesheet" />
     <link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+    <link href="~/dist/css/bootstrap-select.min.css" rel="stylesheet" />
     <!-- jQuery 2.1.4 -->
     <script src="~/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -47,6 +48,13 @@
             padding: 50px;
             text-align: center;
             color: white;
+        }
+
+        #dropzonePreview {
+            cursor: pointer;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            margin: 0 0 0 0;
+            margin-top: 12px;
         }
     </style>
 </head>
@@ -564,6 +572,7 @@
     <script src="~/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="~/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/dist/js/bootstrap-select.min.js"></script>
     @Scripts.Render("~/bundles/dropzonescripts")
     <script src="@Url.Content("~/Scripts/jquery.imgareaselect.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.fancyupload.js")"></script>
@@ -620,6 +629,8 @@
             maxFilesize: 7,
             addRemoveLinks: true,
             acceptedFiles: "image/*",
+            clickable: "#dropzonePreview",
+            previewsContainer: "#dzthumbPrev",
             init: function () {
                 this.on("complete", function (data) {
                     debugger;
@@ -644,7 +655,11 @@
                     var _this = this;
                     // First change the button to actually tell Dropzone to process the queue.
                     this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                        
+                       
                         if ($("#dropzoneForm").valid()) {
+                            debugger;
+                            $("#hdnPostPrivacyId").val($('.selectpicker').val());
                             // Make sure that the form isn't actually being sent.
                             e.preventDefault();
                             e.stopPropagation();
@@ -658,6 +673,10 @@
 
             }
         };
+
+        $(function () {
+            $('.selectpicker').selectpicker();
+        });
     </script>
 
     <!-- adminlte for demo purposes

@@ -180,6 +180,7 @@
     <Content Include="assets\css\login.css" />
     <Content Include="assets\css\main.css" />
     <Content Include="assets\css\tabcontent.css" />
+    <Content Include="assets\dog50.png" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\ImageArea.css" />
     <Content Include="assets\js\ie\backgroundsize.min.htc" />
@@ -261,6 +262,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="dist\css\AdminLTE.css" />
     <Content Include="dist\css\AdminLTE.min.css" />
+    <Content Include="dist\css\bootstrap-select.min.css" />
     <Content Include="dist\css\skins\skin-black-light.css" />
     <Content Include="dist\css\skins\skin-black-light.min.css" />
     <Content Include="dist\css\skins\skin-black.css" />
@@ -301,6 +303,7 @@
     <Content Include="dist\img\user8-128x128.jpg" />
     <Content Include="dist\js\app.js" />
     <Content Include="dist\js\app.min.js" />
+    <Content Include="dist\js\bootstrap-select.min.js" />
     <Content Include="dist\js\demo.js" />
     <Content Include="dist\js\pages\dashboard.js" />
     <Content Include="dist\js\pages\dashboard2.js" />
@@ -1134,6 +1137,10 @@
     <Content Include="Views\Shared\_HeaderPetList.cshtml" />
     <Content Include="Views\PetFeed\Index.cshtml" />
     <Content Include="Views\Shared\MenuPet.cshtml" />
+    <Content Include="Views\Pets\VirtualPet.cshtml" />
+    <Content Include="Views\PetConnection\Index.cshtml" />
+    <Content Include="Views\PetConnection\SearchPets.cshtml" />
+    <Content Include="Views\PetConnection\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

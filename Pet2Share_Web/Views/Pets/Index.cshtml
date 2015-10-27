@@ -89,7 +89,7 @@
                                 </div><!-- /.col -->
                                 <div class="col-sm-4 border-right">
                                     <div class="description-block">
-                                        <a class="link-black" href="~/Pets/Details/@item.Id">
+                                        <a class="link-black" href="@Url.Action("ChangeCurrentPet", "Index", new { @id = item.Id })">
                                             <i class="fa fa-dashboard"></i> Feeds
 
                                         </a>
@@ -97,7 +97,7 @@
                                 </div><!-- /.col -->
                                 <div class="col-sm-4">
                                     <div class="description-block">
-                                        <a class="link-black" href="~/Pets/Details/@item.Id">
+                                        <a class="link-black" href="#">
                                             <i class="fa fa-comments"></i> Messages
 
                                         </a>

@@ -14,8 +14,13 @@
         @Html.TextBoxFor(p => p.PostMessage, new { maxlength = 300, placeholder = "Press enter to post comment", @id = "txtComment_" + Model.PostId, @class = "form-control input-sm" })
         <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
     </div>
-    <div class="text-center">
-        <button class="btn btn-block btn-default btn-xs" onclick="LoadComments(@Model.PostId)" id="@("btnLoadComment_"+Model.PostId)">See all</button>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a href="#" onclick="LoadComments(@Model.PostId);return false;" id="@("btnLoadComment_"+Model.PostId)">See all</a>
+        </div>
+        @*<button class="btn btn-block btn-default btn-xs" onclick="LoadComments(@Model.PostId)" id="@("btnLoadComment_"+Model.PostId)">See all</button>*@
+        
     </div>
 
 </div><!-- /.box-footer -->

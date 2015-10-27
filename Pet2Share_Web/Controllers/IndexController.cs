@@ -51,8 +51,17 @@ namespace Pet2Share_Web.Controllers
             {
                 FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.ProfilePictureURL, true);
 
+                if (obj.Pets.Count() <= 0)
+                {
+                    return RedirectToAction("VirtualPet", "Pets");
+                }
+
                 ViewBag.CurrentPets = obj.Pets.ToList();
 
+                if (BL.BLPetCookie.Instance.CheckPetCookie(obj.Id) > 0)
+                {
+                    return RedirectToAction("Index", "PetFeed");
+                }
                 // return Json(new { result = "Redirect", url = Url.Action("Index", "Feed") });
                 return RedirectToAction("Index", "Feed");
                 //return RedirectToLocal("");
@@ -84,8 +93,11 @@ namespace Pet2Share_Web.Controllers
                 if (obj != null && obj.Id > 0)
                 {
                     FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
+
+                    return RedirectToAction("VirtualPet", "Pets");
+
                     // return Json(new { result = "Redirect", url = Url.Action("Index", "Dashboard") });
-                    return RedirectToAction("Index", "Feed");
+                    //return RedirectToAction("Index", "Feed");
                     //return RedirectToLocal("");
                 }
                 else

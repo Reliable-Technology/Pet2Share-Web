@@ -27,7 +27,7 @@ namespace Pet2Share_Web.Controllers
         {
             try
             {
-                var result = PostManager.AddPost(1, PostObj.PostMessage, PostObj.ProfileId, !PostObj.IsUser);
+                var result = PostManager.AddPost(1, PostObj.PostMessage, PostObj.ProfileId, !PostObj.IsUser, PostObj.PostPrivacyID == 1 ? true : false);
                 if (result.Id > 0)
                 {
                     bool isSavedSuccessfully = true;
@@ -76,35 +76,79 @@ namespace Pet2Share_Web.Controllers
                         ViewBag.Success = "Post added successfully";
                         if (PostObj.IsUser)
                         {
-                            //return RedirectToAction("Index", "Feed");
-                            return Json(new { Message = Url.Action("Index", "Feed") });
+                            if (Request.IsAjaxRequest())
+                            {
+                                //return RedirectToAction("Index", "Feed");
+                                return Json(new { Message = Url.Action("Index", "Feed") });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Feed");
+                            }
                         }
                         else
                         {
-                            return Json(new { Message = Url.Action("Index", "PetFeed") });
+                            if (Request.IsAjaxRequest())
+                            {
+                                //return RedirectToAction("Index", "Feed");
+                                return Json(new { Message = Url.Action("Index", "PetFeed") });
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "PetFeed");
+                            }
+
                         }
 
-                      //  return Json(new { Message = fName });
+                        //  return Json(new { Message = fName });
                     }
                     else
                     {
-                        return Json(new { Message = "Error in saving file", Error="Error" });
+                        if (Request.IsAjaxRequest())
+                        {
+                            return Json(new { Message = "Error in saving file", Error = "Error" });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Error", "Error in saving file");
+                            return View(PostObj);
+                        }
+
                     }
 
                 }
                 else
                 {
+                    if (Request.IsAjaxRequest())
+                    {
+                        return Json(new { Message = "Error in saving file", Error = "Error" });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", "Error in saving file");
+                        return View(PostObj);
+                    }
 
-                    return Json(new { Message = "Error in saving file", Error = "Error" });
                 }
 
 
             }
             catch (Exception ex)
             {
-               // ModelState.AddModelError("Error", ex.Message);
+
                 //return View(PostObj);
-                return Json(new { Message = ex.Message, Error = "Error" });
+                if (Request.IsAjaxRequest())
+                {
+                    //return RedirectToAction("Index", "Feed");
+                    return Json(new { Message = ex.Message, Error = "Error" });
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", ex.Message);
+                    return View(PostObj);
+                }
+
+
             }
 
         }

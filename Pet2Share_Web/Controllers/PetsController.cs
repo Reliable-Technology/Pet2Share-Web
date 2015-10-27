@@ -77,6 +77,29 @@ namespace Pet2Share_Web.Controllers
             return View(petDetails);
         }
 
+        [Authorize]
+        public ActionResult VirtualPet()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Pets/CreateVirtualPet
+        [Authorize]
+        public ActionResult CreateVirtualPet()
+        {
+            var VPetResult = PetProfileManager.AddVirtualProfile(new Pet2Share_API.Domain.User(BL.BLAuth.Instance.GetUserID()));
+            if (VPetResult.IsSuccessful)
+            {
+                return RedirectToAction("ChangeCurrentPet", "Index", new { @id = VPetResult.UpdatedId });
+            }
+
+            PetModel petDetails = new PetModel();
+            petDetails.PetId = 0;
+            petDetails.UserId = BLAuth.Instance.GetUserID();
+            return View(petDetails);
+
+        }
         //
         // POST: /Pets/Create
 

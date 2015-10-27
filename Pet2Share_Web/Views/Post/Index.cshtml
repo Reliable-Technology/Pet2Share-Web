@@ -5,7 +5,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">Post a Status</h3>
         <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            @*<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>*@
         </div><!-- /.box-tools -->
     </div><!-- /.box-header -->
     <div class="box-body" style="display: block;">
@@ -13,6 +13,7 @@
         {
             @Html.HiddenFor(p => p.ProfileId)
             @Html.HiddenFor(p => p.IsUser)
+            @Html.HiddenFor(p=>p.PostPrivacyID, new{ @id="hdnPostPrivacyId"})
             <div class="form-group">
                 @Html.TextAreaFor(p => p.PostMessage, new { maxlength = 300, placeholder = "What's new..", @class = "form-control", rows = "3" })
                 <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
@@ -27,11 +28,33 @@
                 </div>
 
             </div>
-            <div class="col-md-3 pull-right">
-                <button type="submit" class="btn btn-primary btn-block">Post</button>
+            <div class="row">
+                <div class="col-md-9">
+                    <div id="dropzonePreview" class="dz-default dz-message">
+                        <span>Drop images here to upload</span>
+                    </div>
+                </div>
 
+                <div class="col-md-3 pull-right form-group">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <select class="form-control selectpicker">
+                                <option value="1" data-icon="glyphicon-globe">Public</option>
+                                <option value="2" data-icon="glyphicon-user">Private</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <button type="submit" class="btn btn-primary btn-block">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="dzthumbPrev">
+                    </div>
+                </div>
             </div>
         }
     </div><!-- /.box-body -->
 </div>
-

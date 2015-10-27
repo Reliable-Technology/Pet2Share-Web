@@ -14,6 +14,12 @@ namespace Pet2Share_Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+             name: "searchPets",
+             url: "SearchPets",
+             defaults: new { controller = "PetConnection", action = "SearchPets" }
+         );
+
+            routes.MapRoute(
               name: "searchUser",
               url: "Search",
               defaults: new { controller = "Connection", action = "SearchUsers" }

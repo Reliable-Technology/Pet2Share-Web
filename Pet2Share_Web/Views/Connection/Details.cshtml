@@ -142,7 +142,7 @@
                     <div class="active tab-pane" id="activity">
                         <!--show all Post for this user-->
                         <div id="feedContainer">
-                            @Html.Partial("_FeedPartial", new List<Pet2Share_API.Domain.Post>())
+                            @Html.Partial("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = new List<Pet2Share_API.Domain.Post>(), IsUser = true })
                         </div>
                         <div class="row">
 
@@ -249,7 +249,7 @@
                 _inCallback = true;
 
                 $('p#loading').show();
-                $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page, function (data) {
+                $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page + "&isUser=true", function (data) {
 
                     if (data != '') {
                         $("#feedContainer").append(data);

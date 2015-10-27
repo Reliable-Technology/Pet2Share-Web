@@ -50,10 +50,12 @@
                     <div class="row">
                         <div class="col-sm-4 border-right">
                             <div class="description-block">
-                                <a class="link-black" href="@Url.Action("Feed", "Pets", new { @id = Model.PetId })">
+                           @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Model.SUser.Id))
+                           { 
+                                <a class="link-black" href="@Url.Action("ChangeCurrentPet", "Index", new { @id = Model.PetId })">
                                     <i class="fa fa-paw"></i> Feed
                                 </a>
-
+                            }
                             </div><!-- /.description-block -->
                         </div><!-- /.col -->
                         <div class="col-sm-4 border-right">
@@ -65,7 +67,7 @@
                         </div><!-- /.col -->
                         <div class="col-sm-4">
                             <div class="description-block">
-                                <a class="link-black" href="~/Messages">
+                                <a class="link-black" href="#">
                                     <i class="fa fa-comments"></i> Messages
                                 </a>
                             </div><!-- /.description-block -->

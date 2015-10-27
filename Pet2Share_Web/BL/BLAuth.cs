@@ -34,7 +34,31 @@ namespace Pet2Share_Web.BL
         }
 
 
-
+        public string GetProfileUrl(UrlHelper url, int ViewerId, bool IsPet)
+        {
+            if (IsPet)
+            {
+                if (BLPetCookie.Instance.IsYourProfile(ViewerId))
+                {
+                    return url.Action("Details", "Pets", new { @id = ViewerId }).ToString();
+                }
+                else
+                {
+                    return url.Action("Details", "PetConnection", new { @id = ViewerId }).ToString();
+                }
+            }
+            else
+            {
+                if (BL.BLAuth.Instance.IsYourProfile(ViewerId))
+                {
+                    return url.Action("Index", "Profile").ToString();
+                }
+                else
+                {
+                    return url.Action("Details", "Connection", new { @id = ViewerId }).ToString();
+                }
+            }
+        }
 
         public int GetUserID()
         {
@@ -221,6 +245,11 @@ namespace Pet2Share_Web.BL
             }
         }
 
+        public bool IsYourProfile(int viewerID)
+        {
+            return GetCurrentPetId() == viewerID ? true : false;
+        }
+
         public string GetCurrentPetName()
         {
             var CurrentPet = BLPetViewBag.Instance.GetPets().Where(p => p.Id == GetCurrentPetId()).FirstOrDefault();
@@ -230,7 +259,7 @@ namespace Pet2Share_Web.BL
             }
             return "Virtua";
         }
-        
+
         public string GetCurrentPetProfilePic()
         {
             var CurrentPet = BLPetViewBag.Instance.GetPets().Where(p => p.Id == GetCurrentPetId()).FirstOrDefault();
@@ -239,6 +268,31 @@ namespace Pet2Share_Web.BL
                 return CurrentPet.ProfilePictureURL;
             }
             return "";
+        }
+
+        public int CheckPetCookie(int UserId)
+        {
+            int CurrentPetId = 0;
+            try
+            {
+                string CPetid;
+                if (HttpContext.Current.Request.Cookies["UserSettings_" + UserId] != null)
+                {
+
+                    HttpCookie myCookie = HttpContext.Current.Request.Cookies["UserSettings_" + UserId];
+                    CPetid = Convert.ToString(myCookie["CurrentPet"]);
+                }
+                else
+                {
+                    return 0;
+                }
+                int.TryParse(CPetid, out CurrentPetId);
+            }
+            catch
+            {
+
+            }
+            return CurrentPetId;
         }
 
         public int GetCurrentPetId()
@@ -312,5 +366,28 @@ namespace Pet2Share_Web.BL
 
     }
 
+    public sealed class BLControllerExtended : Controller
+    {
+        private static readonly BLControllerExtended instance = new BLControllerExtended();
 
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static BLControllerExtended()
+        {
+        }
+
+        private BLControllerExtended()
+        {
+        }
+
+        public static BLControllerExtended Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+       
+    }
 }

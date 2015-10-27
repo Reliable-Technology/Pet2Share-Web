@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "SearchPets";
+    Layout = "~/Views/Shared/_PetsLayout.cshtml";
+}
+@model Pet2Share_Web.Models.PetConnectionModel
+@*<section class="content-header">
+         <h1>
+             User Feed
+         </h1>
+        <ol class="breadcrumb">
+             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+             <li><a href="#">Examples</a></li>
+             <li class="active">User profile</li>
+         </ol>
+    </section>*@
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- USERS LIST -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Search</h3>
+
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    @using (Html.BeginForm("SearchPets", "PetConnection", FormMethod.Post))
+                    {
+                        <div class="input-group">
+                            @Html.TextBoxFor(p => p.SearchQuery, new { @class = "form-control" })
+
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-info btn-flat" style="margin-top:0px" type="button">Go!</button>
+                            </span>
+                        </div>
+                        if (Model.PetsList.Count() > 0)
+                        {
+                            <ul class="users-list clearfix">
+
+
+                                @foreach (var PetDetails in Model.PetsList)
+                                {
+                                    <li>
+                                       
+                                        <img src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(PetDetails.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail128x128))" alt="Pet Image">
+                                        <a class="users-list-name" href="@Url.Action("Details", "PetConnection", new { @id = PetDetails.Id })">@PetDetails.Name</a>
+                                        <span class="users-list-date">Today</span>
+                                    </li>
+                                }
+
+
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center">No Users found!!</p>
+                        }
+                    }<!-- /.users-list -->
+                </div><!-- /.box-body -->
+                @*<div class="box-footer text-center">
+                        <a href="javascript::" class="uppercase">View All Users</a>
+                    </div>*@
+                <!-- /.box-footer -->
+            </div><!--/.box -->
+        </div>
+    </div>
+</section>
+
+<script>
+    $(function () {
+
+        $('.sidebar-menu li').removeClass('active');
+        $('.menuSearch').addClass('active');
+
+    });
+</script>

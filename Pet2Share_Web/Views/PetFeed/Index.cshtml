@@ -23,7 +23,7 @@
 
 
             <div id="feedContainer">
-                @Html.Partial("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = new List<Pet2Share_API.Domain.Post>(), IsUser = true })
+                @Html.Partial("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = new List<Pet2Share_API.Domain.Post>(), IsUser = false })
             </div>
             <div class="row">
 
@@ -59,7 +59,7 @@
                 _inCallback = true;
 
                 $('p#loading').show();
-                $.get("/Feed/UserFeed?UserId=" + @Pet2Share_Web.BL.BLPetCookie.Instance.GetCurrentPetId() + "&PageNo=" + page + "&isUser=false", function (data) {
+                $.get("/PetFeed/Index?Id=" + page, function (data) {
 
                     if (data != '') {
                         $("#feedContainer").append(data);
