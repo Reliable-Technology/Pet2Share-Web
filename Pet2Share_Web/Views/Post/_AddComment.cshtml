@@ -2,8 +2,6 @@
 
 
 
-<!-- /.box-footer -->
-<div class="box-footer">
 
 
     <img class="img-responsive img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="alt text">
@@ -15,15 +13,7 @@
         <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
     </div>
 
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <a href="#" onclick="LoadComments(@Model.PostId);return false;" id="@("btnLoadComment_"+Model.PostId)">See all</a>
-        </div>
-        @*<button class="btn btn-block btn-default btn-xs" onclick="LoadComments(@Model.PostId)" id="@("btnLoadComment_"+Model.PostId)">See all</button>*@
-        
-    </div>
-
-</div><!-- /.box-footer -->
+   
 
 <script>
 

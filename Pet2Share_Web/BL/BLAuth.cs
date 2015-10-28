@@ -111,9 +111,9 @@ namespace Pet2Share_Web.BL
             {
                 string[] temp = context.User.Identity.Name.Split('$');
 
-                if (temp.Count() > 2)
+                if (temp.Count() > 3)
                 {
-                    return temp[2];
+                    return temp[3];
                 }
             }
             return "Guest";
@@ -126,9 +126,9 @@ namespace Pet2Share_Web.BL
             {
                 string[] temp = context.User.Identity.Name.Split('$');
 
-                if (temp.Count() > 3)
+                if (temp.Count() > 2)
                 {
-                    return temp[3];
+                    return temp[2];
                     //return GetValidImage("HomeFiles/Home_" + Pet2Share_Web.BL.BLAuth.Instance.GetUserID() + @"/" + temp[5]);
                 }
             }

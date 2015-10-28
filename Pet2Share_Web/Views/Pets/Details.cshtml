@@ -7,7 +7,7 @@
                 header) -->
 <section class="content-header">
     <h1>
-        @Model.SUser.Name's  pet @Model.Name
+       @Model.Name
     </h1>
 
 </section>
@@ -59,11 +59,11 @@
                             </div><!-- /.description-block -->
                         </div><!-- /.col -->
                         <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                                <a class="link-black" href="@Url.Action("Index", "Connections", new { @id = Model.PetId })">
-                                    <i class="fa fa-user"></i> Connections
-                                </a>
-                            </div><!-- /.description-block -->
+                            <div class="description-block"><a class="link-black" href="@Url.Action("ChangeCurrentPet", "Index", new { @id = Model.PetId, @redirectTo= "connection" })">
+    @*<a class="link-black" href="@Url.Action("Index", "Connections", new { @id = Model.PetId })">*@
+        <i class="fa fa-user"></i> Connections
+    </a>
+</div><!-- /.description-block -->
                         </div><!-- /.col -->
                         <div class="col-sm-4">
                             <div class="description-block">

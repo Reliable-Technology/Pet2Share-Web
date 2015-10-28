@@ -25,7 +25,8 @@ namespace Pet2Share_Web.BL
         public const string Thumbnail128px = "?width=128";
         public const string Quality70percent = "?quality=70";
         public const string Thumbnail128x128 = "?w=128&h=128";
-
+        public const string Thumbnail128x128Carve = "?w=128&h=128&mode=carve";
+        public const string Thumbnail250x250Carve = "?w=250&h=250&mode=carve";
         private static void Init()
         {
             encryption = new RijndaelManaged();

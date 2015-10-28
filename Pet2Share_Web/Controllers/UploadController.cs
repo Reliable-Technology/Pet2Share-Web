@@ -93,22 +93,23 @@ namespace Pet2Share_Web.Controllers
                                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
                                 string[] Userarray = User.Identity.Name.Split('$');
+                                if (Userarray.Length > 2)
+                                {
+                                    Userarray[2] = UploadResult.Message;
 
-                                Userarray[3] = UploadResult.Message;
 
+                                    var newticket = new FormsAuthenticationTicket(ticket.Version,
+                                                                                   string.Join("$", Userarray),
+                                                                                  ticket.IssueDate,
+                                                                                  ticket.Expiration,
+                                                                                  true,
+                                                                                 string.Join("$", Userarray),
+                                                                                  ticket.CookiePath);
 
-                                var newticket = new FormsAuthenticationTicket(ticket.Version,
-                                                                               string.Join("$", Userarray),
-                                                                              ticket.IssueDate,
-                                                                              ticket.Expiration,
-                                                                              true,
-                                                                             string.Join("$", Userarray),
-                                                                              ticket.CookiePath);
-
-                                cookie.Value = FormsAuthentication.Encrypt(newticket);
-                                cookie.Expires = newticket.Expiration.AddHours(24);
-                                Response.Cookies.Set(cookie);
-
+                                    cookie.Value = FormsAuthentication.Encrypt(newticket);
+                                    cookie.Expires = newticket.Expiration.AddHours(24);
+                                    Response.Cookies.Set(cookie);
+                                }
 
                             }
 

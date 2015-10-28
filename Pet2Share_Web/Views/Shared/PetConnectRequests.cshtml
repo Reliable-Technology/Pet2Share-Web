@@ -1,0 +1,17 @@
+﻿@model Pet2Share_API.Domain.SmallPet[]
+@foreach (var item in Model)
+{
+    <li>
+        <!-- start message -->
+        <a href="#">
+            <div class="pull-left">
+                <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(item.ProfilePictureURL,false,Pet2Share_Web.BL.FormatText.Thumbnail128x128)" class="img-circle" alt="User Image">
+            </div>
+            <h4>
+                @item.Name
+                @*<small><i class="fa fa-clock-o"></i> 5 mins</small>*@
+            </h4>
+            <p>Sent you a connect request</p>
+        </a>
+    </li>
+}

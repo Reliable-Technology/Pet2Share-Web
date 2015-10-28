@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Pet2Share_API.DAL;
 using Pet2Share_Web.Models;
+using Pet2Share_API.Service;
+using Pet2Share_Web.BL;
 
 
 namespace Pet2Share_Web.Controllers
@@ -49,7 +51,7 @@ namespace Pet2Share_Web.Controllers
             var obj = Pet2Share_API.Service.AccountManagement.Login(model.Username, model.Password);
             if (obj != null && obj.Id > 0)
             {
-                FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + "$" + obj.P.ProfilePictureURL, true);
+                FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.ProfilePictureURL + "$" + obj.P.FirstName + " " + obj.P.LastName, true);
 
                 if (obj.Pets.Count() <= 0)
                 {
@@ -92,7 +94,7 @@ namespace Pet2Share_Web.Controllers
                 var obj = Pet2Share_API.Service.AccountManagement.RegisterNewUser(model.Email, model.Password, model.FirstName, model.LastName, model.Email, null);
                 if (obj != null && obj.Id > 0)
                 {
-                    FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.FirstName + " " + obj.P.LastName + obj.P.AvatarURL, true);
+                    FormsAuthentication.SetAuthCookie(obj.Id.ToString() + "$" + obj.Username + "$" + obj.P.AvatarURL + "$" + obj.P.FirstName + " " + obj.P.LastName, true);
 
                     return RedirectToAction("VirtualPet", "Pets");
 
@@ -131,13 +133,41 @@ namespace Pet2Share_Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ChangeCurrentPet(int id)
+        public ActionResult ChangeCurrentPet(int id, string redirectTo, int? redirectToId)
         {
+            UserProfileManager UserPetsObj = new UserProfileManager(BLAuth.Instance.GetUserID());
+            var PetsList = UserPetsObj.user.Pets.ToList();
+
+            if (PetsList.Where(p => p.Id == id).Count() <= 0)
+            {
+                return RedirectToAction("NotFound", "Error");
+            }
+
             BL.BLPetCookie.Instance.SetCurrentPet(id);
+            if (!string.IsNullOrEmpty(redirectTo))
+            {
+                switch (redirectTo.Trim().ToLower())
+                {
+                    case "connection":
+                        return RedirectToAction("Index", "PetConnection");
+                        break;
+                    case "":
+                        return RedirectToAction("Index", "PetFeed");
+                        break; 
+                    case "connectdetail":
+                        return RedirectToAction("Details", "PetConnection", new { @id = redirectToId });
+                        break;
+                    default:
+                        return RedirectToAction("Index", "PetFeed");
+                        break;
+
+
+                }
+            }
             return RedirectToAction("Index", "PetFeed");
         }
 
-
+        
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

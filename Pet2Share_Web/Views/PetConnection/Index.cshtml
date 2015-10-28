@@ -38,7 +38,7 @@
                             {
                                 <li>
                                     <img src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(PetDetails.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail128x128))" alt="Pet Image">
-                                    <a class="users-list-name" href="@Url.Action("Details", "Connection", new { @id = PetDetails.Id })">@PetDetails.Name</a>
+                                    <a class="users-list-name" href="@Pet2Share_Web.BL.BLAuth.Instance.GetProfileUrl(this.Url, PetDetails.Id,true)">@PetDetails.Name</a>
                                     <span class="users-list-date">Today</span>
                                 </li>
                             }

@@ -34,7 +34,7 @@
             <!-- Profile Image -->
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Model.UserDetails.P.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail250px))" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" src="@(Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Model.UserDetails.P.ProfilePictureURL, false, Pet2Share_Web.BL.FormatText.Thumbnail250x250Carve))" alt="User profile picture">
                     <h3 class="profile-username text-center">@(Model.UserDetails.P.FirstName + " " + Model.UserDetails.P.LastName)</h3>
                     @*<p class="text-muted text-center">Software Engineer</p>*@
 
@@ -249,7 +249,7 @@
                 _inCallback = true;
 
                 $('p#loading').show();
-                $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page + "&isUser=true", function (data) {
+                $.get("/Feed/UserFeed?UserId=" + @Model.UserDetails.Id + "&PageNo=" + page + "&isUser=true&IncludePrivate=false", function (data) {
 
                     if (data != '') {
                         $("#feedContainer").append(data);

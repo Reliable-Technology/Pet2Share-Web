@@ -1141,6 +1141,8 @@
     <Content Include="Views\PetConnection\Index.cshtml" />
     <Content Include="Views\PetConnection\SearchPets.cshtml" />
     <Content Include="Views\PetConnection\Details.cshtml" />
+    <Content Include="Views\Shared\UserConnectRequests.cshtml" />
+    <Content Include="Views\Shared\PetConnectRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

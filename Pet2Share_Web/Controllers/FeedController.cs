@@ -30,7 +30,7 @@ namespace Pet2Share_Web.Controllers
         }
 
         [Authorize]
-        public ActionResult UserFeed(int UserId, int PageNo, bool isUser)
+        public ActionResult UserFeed(int UserId, int PageNo, bool isUser, bool? IncludePrivate)
         {
 
             //var CurrentPage = PageNo ?? 1;
@@ -38,7 +38,7 @@ namespace Pet2Share_Web.Controllers
             if (Request.IsAjaxRequest())
             {
                 //Thread.Sleep(3000);
-                return PartialView("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = isUser ? PostManager.GetPostsByUser(UserId, 3, PageNo) : PostManager.GetPostsByPet(UserId, 3, PageNo), IsUser = isUser });
+                return PartialView("_FeedPartial", new Pet2Share_Web.Models.FeedModel() { PostList = isUser ? PostManager.GetPostsByUser(UserId, 3, PageNo, IncludePrivate) : PostManager.GetPostsByPet(UserId, 3, PageNo, IncludePrivate), IsUser = isUser });
             }
             return View();
             //return View("Index", PostManager.GetPostsByUser(BL.BLAuth.Instance.GetUserID(), 10, CurrentPage));

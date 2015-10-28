@@ -9,14 +9,20 @@
                 @*<a href="@(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile((item.IsPostByPet ? item.SPet.Id : item.SUser.Id)) ? Url.Action("Index", "Profile") : Url.Action("Details", "Connection", new { @id = item.SUser.Id }))"> <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((item.IsPostByPet ? item.SPet.ProfilePictureURL : item.SUser.ProfilePictureURL), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image"></a>*@
                 <a href="@(Pet2Share_Web.BL.BLAuth.Instance.GetProfileUrl(this.Url,(item.IsPostByPet ? item.SPet.Id : item.SUser.Id),item.IsPostByPet))"> <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((item.IsPostByPet ? item.SPet.ProfilePictureURL : item.SUser.ProfilePictureURL), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image"></a>
                 @*<span class="username"><a href="@(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile((item.IsPostByPet ? item.SPet.Id : item.SUser.Id)) ? Url.Action("Index", "Profile") : Url.Action("Details", "Connection", new { @id = item.SUser.Id }))">@(item.IsPostByPet ? item.SPet.Name : item.SUser.Name)</a></span>*@
-                <span class="username"><a href="@(Pet2Share_Web.BL.BLAuth.Instance.GetProfileUrl(this.Url,(item.IsPostByPet ? item.SPet.Id : item.SUser.Id),item.IsPostByPet))">@(item.IsPostByPet ? item.SPet.Name : item.SUser.Name)</a></span>               
+                <span class="username"><a href="@(Pet2Share_Web.BL.BLAuth.Instance.GetProfileUrl(this.Url,(item.IsPostByPet ? item.SPet.Id : item.SUser.Id),item.IsPostByPet))">@(item.IsPostByPet ? item.SPet.Name : item.SUser.Name)</a></span>
                 <span class="description">Posted on @item.DateAdded.ToString("ddd, dd MMM")</span>
             </div><!-- /.user-block -->
-            <!-- <div class="box-tools">
-                 <button class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read"><i class="fa fa-circle-o"></i></button>
-                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-             </div> /.box-tools -->
+            <div class="box-tools">
+                @*<button class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read"></button>*@
+                @if (item.IsPublic)
+                {
+                    <span class="glyphicon glyphicon-globe" style="padding: 18px;" title="Public Post"></span>
+                }
+                else
+                {
+                    <span class="glyphicon glyphicon-user" style="padding: 18px;" title="Private Post"></span>
+                }
+            </div>
         </div><!-- /.box-header -->
         <div class="box-body">
             @if (!string.IsNullOrEmpty(item.PostURL))
@@ -39,9 +45,21 @@
             @Html.Partial("~/Views/Post/_CommentItem.cshtml", item.Comments)
 
         </div>
-        @if (Model.IsUser)
-        {
-            @Html.Partial("~/Views/Post/_AddComment.cshtml", new Pet2Share_Web.Models.PostCommentModal(item.Id, Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), Model.IsUser))
-        }
+        <!-- /.box-footer -->
+        <div class="box-footer">
+
+            @if (Model.IsUser)
+            {
+                @Html.Partial("~/Views/Post/_AddComment.cshtml", new Pet2Share_Web.Models.PostCommentModal(item.Id, Pet2Share_Web.BL.BLAuth.Instance.GetUserID(), Model.IsUser))
+            }
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="#" onclick="LoadComments(@item.Id);return false;" id="@("btnLoadComment_"+item.Id)">See all</a>
+                </div>
+                @*<button class="btn btn-block btn-default btn-xs" onclick="LoadComments(@Model.PostId)" id="@("btnLoadComment_"+Model.PostId)">See all</button>*@
+
+            </div>
+
+        </div><!-- /.box-footer -->
     </div>
 }

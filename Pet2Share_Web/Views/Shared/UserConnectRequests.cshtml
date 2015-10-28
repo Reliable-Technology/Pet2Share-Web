@@ -1,0 +1,50 @@
+﻿@model Pet2Share_API.Service.Connection[]
+
+@foreach (var item in Model.Where(p=>p.IsPet!=true))
+{
+    <li>
+        @if(!item.IsPet)
+        {
+            var Requester=  (Pet2Share_API.Domain.SmallUser)item.Requester;
+              var Accepter = (Pet2Share_API.Domain.SmallUser)item.Accepter;
+            <!-- start message -->
+            <a href="@Pet2Share_Web.BL.BLAuth.Instance.GetProfileUrl(this.Url,Requester.Id, false)">
+                <div class="pull-left">
+                    <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Requester.ProfilePictureURL,false,Pet2Share_Web.BL.FormatText.Thumbnail128x128)" class="img-circle" alt="User Image">
+                </div>
+                <h4>
+                    @Requester.Name
+                    @*<small><i class="fa fa-clock-o"></i> 5 mins</small>*@
+                </h4>
+                <p>Sent you a connect request</p>
+            </a>
+        }
+
+
+
+    </li>
+}
+@foreach (var item in Model.Where(p=>p.IsPet==true))
+
+	{
+    <li>
+        @if (item.IsPet)
+        {
+             var Requester=  (Pet2Share_API.Domain.SmallPet)item.Requester;
+              var Accepter = (Pet2Share_API.Domain.SmallPet)item.Accepter;
+            <!-- start message -->
+            <a href="@Url.Action("ChangeCurrentPet", "Index", new { @id = Accepter.Id, @redirectTo = "connectdetail", @redirectToId = Requester.Id })">
+                <div class="pull-left">
+                    <img src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Requester.ProfilePictureURL,false,Pet2Share_Web.BL.FormatText.Thumbnail128x128)" class="img-circle" alt="User Image">
+                </div>
+                <h4>
+                    @Requester.Name
+                    @*<small><i class="fa fa-clock-o"></i> 5 mins</small>*@
+                </h4>
+                <p>Sent @Accepter.Name a connect request</p>
+            </a>
+
+
+        }
+    </li>
+	}

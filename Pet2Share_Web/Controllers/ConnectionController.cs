@@ -103,5 +103,21 @@ namespace Pet2Share_Web.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult GetUserConnects(int id, bool isPet)
+        {
+            var connects = ConnectionManager.GetConnectRequestsGeneralised(id,isPet);
+
+            return PartialView("UserConnectRequests", connects);
+        }
+
+
+        //[Authorize]
+        //public ActionResult GetPetConnects(int id, bool isPet)
+        //{
+        //    var connects = ConnectionManager.GetPetConnectRequests(id, isPet);
+
+        //    return PartialView("PetConnectRequests", connects);
+        //}
     }
 }
