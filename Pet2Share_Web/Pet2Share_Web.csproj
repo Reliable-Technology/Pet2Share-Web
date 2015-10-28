@@ -179,6 +179,7 @@
     <Content Include="assets\css\images\overlay.png" />
     <Content Include="assets\css\login.css" />
     <Content Include="assets\css\main.css" />
+    <Content Include="assets\css\main1.css" />
     <Content Include="assets\css\tabcontent.css" />
     <Content Include="assets\dog50.png" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />

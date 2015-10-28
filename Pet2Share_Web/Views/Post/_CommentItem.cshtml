@@ -8,7 +8,7 @@
         <div class="comment-text">
             <span class="username">
                 <a href="@(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Comment.SUser.Id) ? Url.Action("Index", "Profile") : Url.Action("Details", "Connection", new { @id = Comment.SUser.Id }))"> @Comment.SUser.Name</a>
-                <span class="text-muted pull-right">@Comment.DateAdded.ToString("ddd, dd MMM")</span>
+                <span class="text-muted pull-right">@Pet2Share_Web.BL.FormatText.Instance.TimeAgo(Comment.DateAdded)</span>
             </span><!-- /.username -->
             <p>  @Comment.CommentDescription</p>
         </div><!-- /.comment-text -->
