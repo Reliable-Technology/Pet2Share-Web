@@ -2130,7 +2130,7 @@ a {
             padding-top: 0;
         }
 
-        .box-comments .box-comment img {
+        .box-comments .box-comment img:not(.emoji) {
             float: left;
         }
 
@@ -5311,14 +5311,14 @@ table.text-center th {
 .img-sm,
 .img-md,
 .img-lg,
-.box-comments .box-comment img,
+.box-comments .box-comment img:not(.emoji),
 .user-block.user-block-sm img {
     float: left;
 }
 
 .img-sm,
 .box-comments .box-comment img,
-.user-block.user-block-sm img {
+.user-block.user-block-sm img{
     width: 30px !important;
     height: 30px !important;
 }
@@ -5326,6 +5326,12 @@ table.text-center th {
     .img-sm + .img-push {
         margin-left: 40px;
     }
+
+ .box-comments img.emoji{
+            width:16px !important;
+            height:16px !important;
+        } 
+
 
 .img-md {
     width: 60px;

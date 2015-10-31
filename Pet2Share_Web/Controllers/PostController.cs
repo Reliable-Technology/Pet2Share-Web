@@ -162,8 +162,12 @@ namespace Pet2Share_Web.Controllers
                 int Pid = 0;
                 int.TryParse(PostId, out Pid);
 
-                PostManager PostMn= new PostManager(Pid);
-                var postResult = 
+                var postMan = new PostManager(Pid);
+
+                if (postMan.post.IsDeleted)
+                {
+                    return Json(new { Error = "Post not found.", RemovePost = "Yes" });
+                }
 
                 // TODO: Add update logic here
                 var result = PostManager.AddComment(Pid, BL.BLAuth.Instance.GetUserID(), false, CommentDesc);
@@ -176,7 +180,6 @@ namespace Pet2Share_Web.Controllers
                 else
                 {
                     ModelState.AddModelError("Error", "");
-
 
                 }
 
@@ -198,6 +201,13 @@ namespace Pet2Share_Web.Controllers
                 int Pid = 0;
                 int.TryParse(PostId, out Pid);
 
+                var postMan = new PostManager(Pid);
+
+                if (postMan.post.IsDeleted)
+                {
+                    return Json(new { Error = "Post not found.", RemovePost = "Yes" });
+                }
+
                 // TODO: Add update logic here
                 var result = PostManager.GetComments(Pid);
                 if (result.Count > 0)
@@ -206,10 +216,9 @@ namespace Pet2Share_Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Error", "");
+                    return Json(new { Error = "No Comment" });
                 }
 
-                return Json(new { Error = "" });
 
             }
             catch (Exception ex)

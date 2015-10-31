@@ -59,10 +59,11 @@
                 _inCallback = true;
 
                 $('p#loading').show();
-                $.get("/PetFeed/Index?Id=" + page, function (data) {
+                $.get("/Feed/Index/" + page, function (data) {
 
                     if (data != '') {
                         $("#feedContainer").append(data);
+                        LoadEmoji();
                         $('p#noPostElement').hide();
                         $('p#btnLoadMore').hide();
                         $('p#noMorePostsElement').hide();
@@ -128,19 +129,29 @@
             url: "/post/GetComments",
             data: { "PostId": PostId },
             success: function (data) {
+                
                 if (data.CommentData != null || data.CommentData != undefined) {
                     $('#divComment_' + PostId).empty().append(data.CommentData);
+                    LoadEmoji();
                     $('#divComment_' + PostId).show();
-
                     $("#spnCommentCount_" + PostId).text($(data.CommentData).find("div").length);
                 }
-                else if (data.Error == null || data.Error == undefined) {
-
+                else if (data.Error != null || data.Error != undefined) {
+                    if (data.Error == "No Comment") {
+                        $("#divComment_" + PostId).empty().hide();
+                        $("#spnCommentCount_" + PostId).text("0");
+                    }
+                    else {
+                        alert(data.Error);
+                        if (data.RemovePost != null || data.RemovePost != undefined) {
+                            $('#divPost_' + PostId).remove();
+                        }
+                    }
                 }
                 // $("#btnLoadComment_" + PostId).hide();
             },
             fail: function () {
-
+                alert("something went wrong;");
             }, done: function (msg) {
                 alert("Data Saved: " + msg);
             }
@@ -156,17 +167,19 @@
 
         $("#spnCommentCount_" + postId).text(count);
     }
+
     function DecreaseCommentCount(postId) {
         debugger;
         var count = parseInt($("#spnCommentCount_" + postId).text());
 
         --count;
         if (count <= 0) {
+            count = 0;
             $("#divComment_" + postId).hide();
         }
-        else {
-            $("#spnCommentCount_" + postId).text(count);
-        }
+
+        $("#spnCommentCount_" + postId).text(count);
+
     }
 
     function DeletePost(postId, IsPet) {

@@ -4,16 +4,16 @@
 
 
 
-    <img class="img-responsive img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="alt text">
-    <!-- .img-push is used to add margin to elements next to floating images -->
-    <div class="img-push">
-        @Html.HiddenFor(p => p.PostId)
+<img class="img-responsive img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage(Pet2Share_Web.BL.BLAuth.Instance.GetProfilePic(), false,Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="alt text">
+<!-- .img-push is used to add margin to elements next to floating images -->
+<div class="img-push">
+    @Html.HiddenFor(p => p.PostId)
 
-        @Html.TextBoxFor(p => p.PostMessage, new { maxlength = 300, placeholder = "Press enter to post comment", @id = "txtComment_" + Model.PostId, @class = "form-control input-sm" })
-        <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
-    </div>
+    @Html.TextBoxFor(p => p.PostMessage, new { maxlength = 300, placeholder = "Press enter to post comment", @id = "txtComment_" + Model.PostId, @class = "form-control input-sm" })
+    <p class="help-block">@Html.ValidationMessageFor(p => p.PostMessage)</p>
+</div>
 
-   
+
 
 <script>
 
@@ -36,11 +36,19 @@
                 url: "/post/AddComment",
                 data: { "PostId":@Model.PostId, "CommentDesc": $('#@("txtComment_"+Model.PostId)').val() },
                 success: function (data) {
-
+                    if((data.Error !=null || data.Error!=undefined ))
+                    {
+                        alert(data.Error);
+                        if(data.RemovePost!= null || data.RemovePost!= undefined)
+                        {
+                            $('#@("divPost_" + Model.PostId)').remove();
+                        }
+                    }
                     if((data.Error ==null || data.Error==undefined )&& data.CommentData!=null || data.CommentData!=undefined )
                     {
 
                         $('#@("divComment_"+Model.PostId)').append(data.CommentData);
+                        LoadEmoji();
                         IncreaseCommentCount(@Model.PostId, $(data.CommentData).find("div").length);
                         $('#@("divComment_"+Model.PostId)').show();
                         $('#@("txtComment_"+Model.PostId)').val("");
