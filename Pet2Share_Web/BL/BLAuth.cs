@@ -60,6 +60,24 @@ namespace Pet2Share_Web.BL
             }
         }
 
+        public bool IsYourPost(int ViewerId, bool isPet)
+        {
+            if (isPet)
+            {
+                return BLPetCookie.Instance.GetCurrentPetId() == ViewerId ? true : false;
+            }
+            else
+            {
+                return IsYourProfile(ViewerId);
+            }
+        }
+
+        public bool IsYourComment(int ViewerId)
+        {
+            return IsYourProfile(ViewerId);
+        }
+
+
         public int GetUserID()
         {
             HttpContext context = HttpContext.Current;
@@ -388,6 +406,6 @@ namespace Pet2Share_Web.BL
             }
         }
 
-       
+
     }
 }

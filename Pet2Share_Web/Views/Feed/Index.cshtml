@@ -140,7 +140,7 @@
                 // $("#btnLoadComment_" + PostId).hide();
             },
             fail: function () {
-
+                alert("something went wrong;");
             }, done: function (msg) {
                 alert("Data Saved: " + msg);
             }
@@ -157,5 +157,68 @@
         $("#spnCommentCount_" + postId).text(count);
     }
 
+    function DecreaseCommentCount(postId) {
+        debugger;
+        var count = parseInt($("#spnCommentCount_" + postId).text());
+
+        --count;
+        if (count <= 0) {
+            $("#divComment_" + postId).hide();
+        }
+        else {
+            $("#spnCommentCount_" + postId).text(count);
+        }
+    }
+
+    function DeletePost(postId, IsPet) {
+        $.ajax({
+            type: "POST",
+            url: "/post/DeletePost",
+            data: {
+                "postId": postId,
+                "IsPet": IsPet
+            },
+            success: function (data) {
+                if (data.Success != null || data.Success != undefined) {
+                    $('#divPost_' + postId).remove();
+                }
+                else if (data.Error == null || data.Error == undefined) {
+                    alert(data.Error);
+                }
+            },
+            fail: function () {
+                alert("something went wrong;");
+            }, done: function (msg) {
+
+            }
+
+        });
+    }
+
+    function DeleteComment(commentId, postId) {
+        $.ajax({
+            type: "POST",
+            url: "/post/DeleteComment",
+            data: {
+                "commentId": commentId
+            },
+            success: function (data) {
+                debugger;
+                if (data.Success != null || data.Success != undefined) {
+                    $('#divCommentItem_' + commentId).remove();
+                    DecreaseCommentCount(postId);
+                }
+                else if (data.Error == null || data.Error == undefined) {
+                    alert(data.Error);
+                }
+            },
+            fail: function () {
+                alert("something went wrong;");
+            }, done: function (msg) {
+
+            }
+
+        });
+    }
 
 </script>

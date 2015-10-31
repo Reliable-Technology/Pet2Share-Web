@@ -162,6 +162,9 @@ namespace Pet2Share_Web.Controllers
                 int Pid = 0;
                 int.TryParse(PostId, out Pid);
 
+                PostManager PostMn= new PostManager(Pid);
+                var postResult = 
+
                 // TODO: Add update logic here
                 var result = PostManager.AddComment(Pid, BL.BLAuth.Instance.GetUserID(), false, CommentDesc);
                 if (result.Id > 0)
@@ -275,30 +278,54 @@ namespace Pet2Share_Web.Controllers
             }
         }
 
-        //
-        // GET: /Post/Delete/5
+        ////
+        //// GET: /Post/Delete/5
 
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         //
         // POST: /Post/Delete/5
 
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public JsonResult DeletePost(int postId, bool IsPet)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var Result = Pet2Share_API.Service.PostManager.DeletePost(postId, IsPet ? BL.BLPetCookie.Instance.GetCurrentPetId() : BL.BLAuth.Instance.GetUserID(), IsPet);
+                if (Result.IsSuccessful)
+                {
+                    return Json(new { Success = "Post deleted successfully" });
+                }
+                else
+                { return Json(new { Error = Result.Message }); }
             }
             catch
             {
-                return View();
+                return Json(new { Error = "Post not deleted." });
             }
         }
+
+        [HttpPost]
+        public JsonResult DeleteComment(int commentId)
+        {
+            try
+            {
+                var Result = Pet2Share_API.Service.PostManager.DeleteComment(commentId, BL.BLAuth.Instance.GetUserID());
+                if (Result.IsSuccessful)
+                {
+                    return Json(new { Success = "Comment deleted successfully" });
+                }
+                else
+                { return Json(new { Error = Result.Message }); }
+            }
+            catch
+            {
+                return Json(new { Error = "Comment not deleted." });
+            }
+        }
+
     }
 }

@@ -2,12 +2,19 @@
 @if (Model.Count > 0)
 {
     foreach (var Comment in Model.OrderBy(p => p.Id))
-    {  <div class="box-comment">
+    {  <div class="box-comment" id="divCommentItem_@Comment.Id">
         <!-- User image -->
         <img class="img-circle img-sm" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((Comment.SUser.ProfilePictureURL), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image">
         <div class="comment-text">
             <span class="username">
                 <a href="@(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile(Comment.SUser.Id) ? Url.Action("Index", "Profile") : Url.Action("Details", "Connection", new { @id = Comment.SUser.Id }))"> @Comment.SUser.Name</a>
+
+                @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourComment(Comment.CommentedBy))
+                {
+                    <span style="cursor:pointer; margin-left:5px" class=" pull-right" onclick="DeleteComment(@Comment.Id, @Comment.PostId)">
+                        <i class="fa fa-times"></i>
+                    </span>
+                }
                 <span class="text-muted pull-right">@Pet2Share_Web.BL.FormatText.Instance.TimeAgo(Comment.DateAdded)</span>
             </span><!-- /.username -->
             <p>

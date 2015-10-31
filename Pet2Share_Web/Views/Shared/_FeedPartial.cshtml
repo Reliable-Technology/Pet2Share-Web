@@ -3,7 +3,7 @@
 @foreach (var item in Model.PostList)
 {
 
-    <div class="box box-widget">
+    <div class="box box-widget" id="divPost_@item.Id">
         <div class="box-header with-border">
             <div class="user-block">
                 @*<a href="@(Pet2Share_Web.BL.BLAuth.Instance.IsYourProfile((item.IsPostByPet ? item.SPet.Id : item.SUser.Id)) ? Url.Action("Index", "Profile") : Url.Action("Details", "Connection", new { @id = item.SUser.Id }))"> <img class="img-circle" src="@Pet2Share_Web.BL.FormatText.Instance.GetValidImage((item.IsPostByPet ? item.SPet.ProfilePictureURL : item.SUser.ProfilePictureURL), false, Pet2Share_Web.BL.FormatText.CommonThumbnail)" alt="user image"></a>*@
@@ -16,12 +16,20 @@
                 @*<button class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read"></button>*@
                 @if (item.IsPublic)
                 {
-                    <span class="glyphicon glyphicon-globe" style="padding: 18px;" title="Public Post"></span>
+                    <span class="glyphicon glyphicon-globe" style="padding: 18px; padding-right:5px" title="Public Post"></span>
                 }
                 else
                 {
-                    <span class="glyphicon glyphicon-user" style="padding: 18px;" title="Private Post"></span>
+                    <span style="padding: 18px; padding-right:5px" title="Private Post"></span>
                 }
+
+
+                @if (Pet2Share_Web.BL.BLAuth.Instance.IsYourPost(item.PostedBy, item.IsPostByPet))
+                {
+                    <span class="glyphicon glyphicon-remove" style="padding: 18px; padding-left:5px; cursor:pointer" onclick="DeletePost(@item.Id, '@item.IsPostByPet.ToString().ToLower()')">
+                    </span>
+                }
+
             </div>
         </div><!-- /.box-header -->
         <div class="box-body">
@@ -31,7 +39,7 @@
             }
             <!-- post text -->
             <p>
-               @* @Html.Raw(Pet2Share_Web.BL.BLEmoticon.Instance.Format(item.Description))*@
+                @* @Html.Raw(Pet2Share_Web.BL.BLEmoticon.Instance.Format(item.Description))*@
                 @item.Description
             </p>
 
@@ -39,7 +47,7 @@
             <!-- Social sharing buttons -->
             <button class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
             <button class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-            <span class="pull-right text-muted"><span id="spnLikeCount_@item.Id">@item.PostLikeCount</span> likes - <span id="spnCommentCount_@item.Id">@item.PostCommentCount</span> comments</span>
+            <span class="pull-right text-muted"><span id="spnLikeCount_@item.Id">@item.PostLikeCount</span> likes - <span id="spnCommentCount_@item.Id">@Math.Max(item.PostCommentCount, 0)</span> comments</span>
         </div><!-- /.box-body -->
         <div class="box-footer box-comments" id="divComment_@item.Id" style="@(item.PostCommentCount > 0 ? "display:block" : "display:none")">
 
